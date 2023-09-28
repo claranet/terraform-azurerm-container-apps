@@ -1,6 +1,6 @@
-data "azurecaf_name" "aca" {
+data "azurecaf_name" "aca_env" {
   name          = var.stack
-  resource_type = "azurerm_container_app"
+  resource_type = "azurerm_container_app_environment"
   prefixes      = var.name_prefix == "" ? null : [local.name_prefix]
   suffixes      = compact([var.client_name, var.location_short, var.environment, local.name_suffix])
   use_slug      = var.use_caf_naming

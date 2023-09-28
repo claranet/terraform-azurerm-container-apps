@@ -1,3 +1,14 @@
+variable "container_app_environment_id" {
+  description = "The ID of the Container App Environment within which this Container App should exist. Changing this forces a new resource to be created."
+  type        = string
+}
+
+variable "revision_mode" {
+  type        = string
+  description = "The revisions operational mode for the Container App. Possible values include `Single` and `Multiple`. In `Single` mode, a single revision is in operation at any given time. In `Multiple` mode, more than one revision can be active at a time and can be configured with load distribution via the `traffic_weight` block in the `ingress` configuration."
+  default     = "Single"
+}
+
 variable "container_configuration" {
   description = <<EOD
 Container configuration object with following attributes:
@@ -64,6 +75,113 @@ EOD
       name = optional(string, null)
       path = optional(string, null)
     })))
+  }))
+  default = []
+}
+
+variable "template_max_replicas" {
+  description = "The maximum number of replicas for this container."
+  type        = number
+  default     = null
+}
+
+variable "template_min_replicas" {
+  description = "The minimum number of replicas for this container."
+  type        = number
+  default     = null
+}
+
+variable "azure_queue_scale_rule_configuration" {
+  description = <<EOD
+One or more `azure_queue_scale_rule` object with following attributes:
+```
+- name:                           xxxxxxxxxxxxxx
+```
+EOD
+  type = list(object({
+    name         = string
+    queue_name   = string
+    queue_lenght = string
+    authentication = list(object({
+      secret_name       = string
+      trigger_parameter = string
+    }))
+  }))
+  default = []
+}
+
+variable "custom_scale_rule_configuration" {
+  description = <<EOD
+One or more `custom_scale_rule` object with following attributes:
+```
+- name:                           xxxxxxxxxxxxxx
+```
+EOD
+  type = list(object({
+    name             = string
+    custom_rule_type = string
+    metadata         = map(string)
+    authentication = optional(list(object({
+      secret_name       = string
+      trigger_parameter = string
+    })))
+  }))
+  default = []
+}
+
+variable "http_scale_rule_configuration" {
+  description = <<EOD
+One or more `http_scale_rule` object with following attributes:
+```
+- name:                           xxxxxxxxxxxxxx
+```
+EOD
+  type = list(object({
+    name                = string
+    concurrent_requests = number
+    authentication = optional(list(object({
+      secret_name       = string
+      trigger_parameter = string
+    })))
+  }))
+  default = []
+}
+
+variable "tcp_scale_rule_configuration" {
+  description = <<EOD
+One or more `tcp_scale_rule` object with following attributes:
+```
+- name:                           xxxxxxxxxxxxxx
+```
+EOD
+  type = list(object({
+    name                = string
+    concurrent_requests = number
+    authentication = optional(list(object({
+      secret_name       = string
+      trigger_parameter = string
+    })))
+  }))
+  default = []
+}
+
+variable "template_revision_suffix" {
+  description = "The suffix for the revision. This value must be unique for the lifetime of the Resource. If omitted the service will use a hash function to create one."
+  type        = string
+  default     = ""
+}
+
+variable "volume_configuration" {
+  description = <<EOD
+A `tcp_scale_rule` object with following attributes:
+```
+- name:                           xxxxxxxxxxxxxx
+```
+EOD
+  type = list(object({
+    name         = string
+    storage_name = optional(string)
+    storage_type = optional(string, "EmptyDir")
   }))
   default = []
 }
