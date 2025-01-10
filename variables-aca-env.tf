@@ -4,11 +4,11 @@ variable "dapr_application_insights_connection_string" {
   default     = null
 }
 
-variable "infrastructure_subnet_id" {
-  description = "The existing Subnet to use for the Container Apps Control Plane. Changing this forces a new resource to be created. "
-  type        = string
-  default     = null
-}
+# variable "infrastructure_subnet_id" {
+#   description = "The existing Subnet to use for the Container Apps Control Plane. Changing this forces a new resource to be created. "
+#   type        = string
+#   default     = null
+# }
 
 # variable "internal_load_balancer_enabled" {
 #   description = "Should the Container Environment operate in Internal Load Balancing Mode? Defaults to `false`. Changing this forces a new resource to be created."

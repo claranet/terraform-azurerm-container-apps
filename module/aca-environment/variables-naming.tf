@@ -12,8 +12,8 @@ variable "name_suffix" {
 }
 
 # Custom naming override
-variable "aca_custom_name" {
-  description = "Custom name for container app."
+variable "custom_name" {
+  description = "Name of the App Service Plan, generated if not set."
   type        = string
   default     = ""
 }

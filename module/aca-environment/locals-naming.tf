@@ -3,5 +3,5 @@ locals {
   name_prefix = lower(var.name_prefix)
   name_suffix = lower(var.name_suffix)
 
-  aca_env_name = coalesce(var.aca_env_custom_name, data.azurecaf_name.aca_env.result)
+  name = coalesce(var.custom_name, data.azurecaf_name.container_app_environment.result)
 }

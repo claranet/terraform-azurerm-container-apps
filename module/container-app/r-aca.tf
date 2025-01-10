@@ -1,5 +1,5 @@
 resource "azurerm_container_app" "aca" {
-  name                         = local.aca_name
+  name                         = local.name
   resource_group_name          = var.resource_group_name
   revision_mode                = var.revision_mode
   container_app_environment_id = var.container_app_environment_id
@@ -11,7 +11,7 @@ resource "azurerm_container_app" "aca" {
       content {
         args    = lookup(container.value, "args", null)
         command = lookup(container.value, "command", null)
-        cpu     = lookup(container.value, "cpu")
+        cpu     = lookup(container.value, "cpu", "0.25")
 
         dynamic "env" {
           for_each = container.value.env_configuration != null ? container.value.env_configuration : []
@@ -22,7 +22,7 @@ resource "azurerm_container_app" "aca" {
           }
         }
 
-        image = lookup(container.value, "image")
+        image = lookup(container.value, "image", null)
 
         dynamic "liveness_probe" {
           for_each = container.value.liveness_probe_configuration != null ? container.value.liveness_probe_configuration : []
@@ -48,8 +48,8 @@ resource "azurerm_container_app" "aca" {
           }
         }
 
-        memory = lookup(container.value, "memory")
-        name   = lookup(container.value, "name")
+        memory = lookup(container.value, "memory", "0.5Gi")
+        name   = lookup(container.value, "name", null)
 
         dynamic "readiness_probe" {
           for_each = container.value.readiness_probe_configuration != null ? container.value.readiness_probe_configuration : []
