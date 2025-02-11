@@ -1,5 +1,5 @@
 module "aca_env" {
-  source = "./module/aca-environment"
+  source = "./module/container-app-environment"
 
   client_name         = var.client_name
   environment         = var.environment

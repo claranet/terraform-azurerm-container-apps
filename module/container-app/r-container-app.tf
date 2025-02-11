@@ -1,4 +1,4 @@
-resource "azurerm_container_app" "aca" {
+resource "azurerm_container_app" "main" {
   name                         = local.name
   resource_group_name          = var.resource_group_name
   revision_mode                = var.revision_mode
@@ -6,15 +6,19 @@ resource "azurerm_container_app" "aca" {
 
   template {
 
-    dynamic "container" {
-      for_each = var.container_configuration
+    dynamic "init_container" {
+      for_each = var.init_containers
       content {
-        args    = lookup(container.value, "args", null)
-        command = lookup(container.value, "command", null)
-        cpu     = lookup(container.value, "cpu", "0.25")
+        name              = init_container.value.name
+        args              = init_container.value.args
+        command           = init_container.value.command
+        cpu               = init_container.value.cpu
+        ephemeral_storage = init_container.value.ephemeral_storage
+        image             = init_container.value.image
+        memory            = init_container.value.memory
 
         dynamic "env" {
-          for_each = container.value.env_configuration != null ? container.value.env_configuration : []
+          for_each = init_container.value.envs
           content {
             name        = env.value.name
             secret_name = env.value.secret_name
@@ -22,15 +26,42 @@ resource "azurerm_container_app" "aca" {
           }
         }
 
-        image = lookup(container.value, "image", null)
+        dynamic "volume_mounts" {
+          for_each = init_container.value.volume_mnt
+          content {
+            name = volume_mounts.value.name
+            path = volume_mounts.value.path
+          }
+        }
+      }
+    }
+
+    dynamic "container" {
+      for_each = var.containers
+      content {
+        name    = container.value.name
+        args    = container.value.args
+        command = container.value.command
+        cpu     = container.value.cpu
+        image   = container.value.image
+        memory  = container.value.memory
+
+        dynamic "env" {
+          for_each = container.value.envs
+          content {
+            name        = env.value.name
+            secret_name = env.value.secret_name
+            value       = env.value.value
+          }
+        }
 
         dynamic "liveness_probe" {
-          for_each = container.value.liveness_probe_configuration != null ? container.value.liveness_probe_configuration : []
+          for_each = container.value.liveness_probes
           content {
             failure_count_threshold = liveness_probe.value.failure_count_threshold
 
             dynamic "header" {
-              for_each = liveness_probe.value.header_configuration != null ? liveness_probe.value.header_configuration : []
+              for_each = liveness_probe.value.headers
               content {
                 name  = header.value.name
                 value = header.value.value
@@ -48,16 +79,15 @@ resource "azurerm_container_app" "aca" {
           }
         }
 
-        memory = lookup(container.value, "memory", "0.5Gi")
-        name   = lookup(container.value, "name", null)
+
 
         dynamic "readiness_probe" {
-          for_each = container.value.readiness_probe_configuration != null ? container.value.readiness_probe_configuration : []
+          for_each = container.value.readiness_probes
           content {
             failure_count_threshold = readiness_probe.value.failure_count_threshold
 
             dynamic "header" {
-              for_each = readiness_probe.value.header_configuration != null ? readiness_probe.value.header_configuration : []
+              for_each = readiness_probe.value.headers
               content {
                 name  = header.value.name
                 value = header.value.value
@@ -75,12 +105,12 @@ resource "azurerm_container_app" "aca" {
         }
 
         dynamic "startup_probe" {
-          for_each = container.value.startup_probe_configuration != null ? container.value.startup_probe_configuration : []
+          for_each = container.value.startup_probes
           content {
             failure_count_threshold = startup_probe.value.failure_count_threshold
 
             dynamic "header" {
-              for_each = startup_probe.value.header_configuration != null ? startup_probe.value.header_configuration : []
+              for_each = startup_probe.value.headers
               content {
                 name  = header.value.name
                 value = header.value.value
@@ -98,7 +128,7 @@ resource "azurerm_container_app" "aca" {
         }
 
         dynamic "volume_mounts" {
-          for_each = container.value.volume_mounts_configuration != null ? container.value.volume_mounts_configuration : []
+          for_each = container.value.volume_mnt
           content {
             name = volume_mounts.value.name
             path = volume_mounts.value.path
@@ -111,7 +141,7 @@ resource "azurerm_container_app" "aca" {
     min_replicas = var.template_min_replicas
 
     dynamic "azure_queue_scale_rule" {
-      for_each = var.azure_queue_scale_rule_configuration
+      for_each = var.azure_queue_scale_rules
 
       content {
         name         = azure_queue_scale_rule.value.name
@@ -119,7 +149,7 @@ resource "azurerm_container_app" "aca" {
         queue_length = azure_queue_scale_rule.value.queue_length
 
         dynamic "authentication" {
-          for_each = azure_queue_scale_rule.value.authentication_configuration != null ? azure_queue_scale_rule.value.authentication_configuration : []
+          for_each = azure_queue_scale_rule.value.authentications
           content {
             secret_name       = authentication.value.secret_name
             trigger_parameter = authentication.value.trigger_parameter
@@ -130,7 +160,7 @@ resource "azurerm_container_app" "aca" {
 
     dynamic "custom_scale_rule" {
 
-      for_each = var.custom_scale_rule_configuration
+      for_each = var.custom_scale_rules
 
       content {
         name             = custom_scale_rule.value.name
@@ -138,7 +168,7 @@ resource "azurerm_container_app" "aca" {
         metadata         = custom_scale_rule.value.metada
 
         dynamic "authentication" {
-          for_each = custom_scale_rule.value.authentication_configuration != null ? custom_scale_rule.value.authentication_configuration : []
+          for_each = custom_scale_rule.value.authentications
           content {
             secret_name       = authentication.value.secret_name
             trigger_parameter = authentication.value.trigger_parameter
@@ -149,14 +179,14 @@ resource "azurerm_container_app" "aca" {
 
     dynamic "http_scale_rule" {
 
-      for_each = var.http_scale_rule_configuration
+      for_each = var.http_scale_rules
 
       content {
         name                = http_scale_rule.value.name
         concurrent_requests = http_scale_rule.value.concurrent_requests
 
         dynamic "authentication" {
-          for_each = http_scale_rule.value.authentication_configuration != null ? http_scale_rule.value.authentication_configuration : []
+          for_each = http_scale_rule.value.authentications
           content {
             secret_name       = authentication.value.secret_name
             trigger_parameter = authentication.value.trigger_parameter
@@ -167,13 +197,13 @@ resource "azurerm_container_app" "aca" {
 
     dynamic "tcp_scale_rule" {
 
-      for_each = var.tcp_scale_rule_configuration
+      for_each = var.tcp_scale_rules
       content {
         name                = tcp_scale_rule.value.name
         concurrent_requests = tcp_scale_rule.value.concurrent_requests
 
         dynamic "authentication" {
-          for_each = tcp_scale_rule.value.authentication_configuration != null ? tcp_scale_rule.value.authentication_configuration : []
+          for_each = tcp_scale_rule.value.authentications
           content {
             secret_name       = authentication.value.secret_name
             trigger_parameter = authentication.value.trigger_parameter
@@ -185,7 +215,7 @@ resource "azurerm_container_app" "aca" {
     revision_suffix = var.template_revision_suffix
 
     dynamic "volume" {
-      for_each = var.volume_configuration
+      for_each = var.volumes
       content {
         name         = volume.value.template_volume_name
         storage_name = volume.value.template_volume_storage_name
@@ -195,7 +225,7 @@ resource "azurerm_container_app" "aca" {
   }
 
   dynamic "dapr" {
-    for_each = var.dapr_configuration
+    for_each = var.daprs
     content {
       app_id       = dapr.value.app_id
       app_port     = dapr.value.app_port
@@ -206,20 +236,20 @@ resource "azurerm_container_app" "aca" {
   dynamic "identity" {
     for_each = var.identity[*]
     content {
-      type         = var.identity.type
-      identity_ids = var.identity.identity_ids
+      type         = identity.value.type
+      identity_ids = identity.value.identity_ids
     }
   }
 
   dynamic "ingress" {
-    for_each = var.ingress_configuration
+    for_each = var.ingresses
 
     content {
 
       allow_insecure_connections = ingress.value.allow_insecure_connections
 
       dynamic "custom_domain" {
-        for_each = ingress.value.custom_domain_configuration != null ? ingress.value.custom_domain_configuration : []
+        for_each = ingress.value.custom_domain
         content {
           name                     = custom_domain.value.name
           certificate_id           = custom_domain.value.certificate_id
@@ -232,7 +262,7 @@ resource "azurerm_container_app" "aca" {
       target_port      = ingress.value.target_port
 
       dynamic "traffic_weight" {
-        for_each = ingress.value.traffic_weight_configuration
+        for_each = ingress.value.traffic_weights
         content {
           label           = traffic_weight.value.label
           latest_revision = traffic_weight.value.latest_revision
@@ -246,7 +276,7 @@ resource "azurerm_container_app" "aca" {
   }
 
   dynamic "registry" {
-    for_each = var.registry_configuration
+    for_each = var.registries
     content {
       server               = registry.value.server
       identity             = registry.value.identity
@@ -256,7 +286,7 @@ resource "azurerm_container_app" "aca" {
   }
 
   dynamic "secret" {
-    for_each = var.secret_configuration
+    for_each = var.secrets
     content {
       name  = secret.value.name
       value = secret.value.value

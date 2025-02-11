@@ -9,7 +9,30 @@ variable "revision_mode" {
   default     = "Single"
 }
 
-variable "container_configuration" {
+variable "init_containers" {
+  description = "The name of the Container App. Changing this forces a new resource to be created."
+  type = list(object({
+    name    = string
+    args    = optional(list(string), null)
+    command = optional(list(string), null)
+    cpu     = optional(number, null)
+    image   = string
+    memory  = optional(string, null)
+    envs = optional(list(object({
+      name        = string
+      secret_name = optional(string, null)
+      value       = optional(string, null)
+    })), [])
+    ephemeral_storage = optional(string, null)
+    volume_mnt = optional(list(object({
+      name = string
+      path = string
+    })), [])
+  }))
+  default = []
+}
+
+variable "containers" {
   description = <<EOD
 Container configuration object with following attributes:
 ```
@@ -23,58 +46,58 @@ EOD
     memory  = string
     args    = optional(list(string), null)
     command = optional(list(string), null)
-    env_configuration = optional(list(object({
-      name        = optional(string, null)
+    envs = optional(list(object({
+      name        = string
       secret_name = optional(string, null)
       value       = optional(string, null)
-    })))
-    liveness_probe_configuration = optional(list(object({
+    })), [])
+    liveness_probes = optional(list(object({
       failure_count_threshold = optional(number, 3)
-      header_configuration = optional(list(object({
-        name  = optional(string)
-        value = optional(string)
-      })))
-      host                    = optional(string)
-      initial_delay           = optional(number)
+      headers = optional(list(object({
+        name  = string
+        value = string
+      })), [])
+      host             = optional(string, null)
+      initial_delay    = optional(number, 1)
+      interval_seconds = optional(number, 10)
+      path             = optional(string, "/")
+      port             = number
+      timeout          = optional(number, 1)
+      transport        = optional(string, null)
+    })), [])
+    readiness_probes = optional(list(object({
+      failure_count_threshold = optional(number, 3)
+      headers = optional(list(object({
+        name  = string
+        value = string
+      })), [])
+      host                    = optional(string, null)
+      initial_delay           = optional(number, 0)
       interval_seconds        = optional(number, 10)
       path                    = optional(string, "/")
-      port                    = optional(number)
+      port                    = number
       success_count_threshold = optional(number, 3)
       timeout                 = optional(number, 1)
-      transport               = optional(string)
-    })))
-    readiness_probe_configuration = optional(list(object({
+      transport               = optional(string, null)
+    })), [])
+    startup_probes = optional(list(object({
       failure_count_threshold = optional(number, 3)
-      header_configuration = optional(list(object({
-        name  = optional(string)
-        value = optional(string)
-      })))
-      host                             = optional(string)
-      interval_seconds                 = optional(number, 10)
-      path                             = optional(string, "/")
-      port                             = optional(number)
-      termination_grace_period_seconds = optional(number)
-      timeout                          = optional(number, 1)
-      transport                        = optional(string)
-    })))
-    startup_probe_configuration = optional(list(object({
-      failure_count_threshold = optional(number, 3)
-      header_configuration = optional(list(object({
-        name  = optional(string)
-        value = optional(string)
-      })))
-      host                             = optional(string)
-      interval_seconds                 = optional(number, 10)
-      path                             = optional(string, "/")
-      port                             = optional(number)
-      termination_grace_period_seconds = optional(number)
-      timeout                          = optional(number, 1)
-      transport                        = optional(string)
-    })))
-    volume_mounts_configuration = optional(list(object({
-      name = optional(string, null)
-      path = optional(string, null)
-    })))
+      headers = optional(list(object({
+        name  = string
+        value = string
+      })), [])
+      host             = optional(string, null)
+      initial_delay    = optional(number, 0)
+      interval_seconds = optional(number, 10)
+      path             = optional(string, "/")
+      port             = number
+      timeout          = optional(number, 1)
+      transport        = optional(string, null)
+    })), [])
+    volume_mnt = optional(list(object({
+      name = string
+      path = string
+    })), [])
   }))
   default = []
 }
@@ -91,7 +114,7 @@ variable "template_min_replicas" {
   default     = null
 }
 
-variable "azure_queue_scale_rule_configuration" {
+variable "azure_queue_scale_rules" {
   description = <<EOD
 One or more `azure_queue_scale_rule` object with following attributes:
 ```
@@ -110,7 +133,7 @@ EOD
   default = []
 }
 
-variable "custom_scale_rule_configuration" {
+variable "custom_scale_rules" {
   description = <<EOD
 One or more `custom_scale_rule` object with following attributes:
 ```
@@ -124,12 +147,12 @@ EOD
     authentication = optional(list(object({
       secret_name       = string
       trigger_parameter = string
-    })))
+    })), [])
   }))
   default = []
 }
 
-variable "http_scale_rule_configuration" {
+variable "http_scale_rules" {
   description = <<EOD
 One or more `http_scale_rule` object with following attributes:
 ```
@@ -142,12 +165,12 @@ EOD
     authentication = optional(list(object({
       secret_name       = string
       trigger_parameter = string
-    })))
+    })), [])
   }))
   default = []
 }
 
-variable "tcp_scale_rule_configuration" {
+variable "tcp_scale_rules" {
   description = <<EOD
 One or more `tcp_scale_rule` object with following attributes:
 ```
@@ -160,7 +183,7 @@ EOD
     authentication = optional(list(object({
       secret_name       = string
       trigger_parameter = string
-    })))
+    })), [])
   }))
   default = []
 }
@@ -171,7 +194,7 @@ variable "template_revision_suffix" {
   default     = ""
 }
 
-variable "volume_configuration" {
+variable "volumes" {
   description = <<EOD
 A `tcp_scale_rule` object with following attributes:
 ```
@@ -186,7 +209,7 @@ EOD
   default = []
 }
 
-variable "dapr_configuration" {
+variable "daprs" {
   description = <<EOD
 A `dapr` object with following attributes:
 ```
@@ -201,7 +224,7 @@ EOD
   default = []
 }
 
-variable "ingress_configuration" {
+variable "ingresses" {
   description = <<EOD
 An `ingress` object with following attributes:
 ```
@@ -214,7 +237,7 @@ EOD
   default = []
 }
 
-variable "registry_configuration" {
+variable "registries" {
   description = <<EOD
 A `registry` object with following attributes:
 ```
@@ -227,7 +250,7 @@ EOD
       certificate_binding_type = optional(string, "Disabled")
       certificate_id           = string
       name                     = string
-    })))
+    })), [])
     fqdn             = optional(string)
     external_enabled = optional(bool)
     target_port      = number
@@ -242,7 +265,7 @@ EOD
   default = []
 }
 
-variable "secret_configuration" {
+variable "secrets" {
   description = <<EOD
 Secret configuration object with following attributes:
 ```

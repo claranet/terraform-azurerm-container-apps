@@ -1,4 +1,4 @@
-variable "container_configuration" {
+variable "containers" {
   description = <<EOD
 Container configuration object with following attributes:
 ```
@@ -12,14 +12,14 @@ EOD
     memory  = string
     args    = optional(list(string), null)
     command = optional(list(string), null)
-    env_configuration = optional(list(object({
+    envs = optional(list(object({
       name        = optional(string, null)
       secret_name = optional(string, null)
       value       = optional(string, null)
     })))
-    liveness_probe_configuration = optional(list(object({
+    liveness_probes = optional(list(object({
       failure_count_threshold = optional(number, 3)
-      header_configuration = optional(list(object({
+      headers = optional(list(object({
         name  = optional(string)
         value = optional(string)
       })))
@@ -32,9 +32,9 @@ EOD
       timeout                 = optional(number, 1)
       transport               = optional(string)
     })))
-    readiness_probe_configuration = optional(list(object({
+    readiness_probes = optional(list(object({
       failure_count_threshold = optional(number, 3)
-      header_configuration = optional(list(object({
+      headers = optional(list(object({
         name  = optional(string)
         value = optional(string)
       })))
@@ -46,9 +46,9 @@ EOD
       timeout                          = optional(number, 1)
       transport                        = optional(string)
     })))
-    startup_probe_configuration = optional(list(object({
+    startup_probes = optional(list(object({
       failure_count_threshold = optional(number, 3)
-      header_configuration = optional(list(object({
+      headers = optional(list(object({
         name  = optional(string)
         value = optional(string)
       })))
@@ -60,7 +60,7 @@ EOD
       timeout                          = optional(number, 1)
       transport                        = optional(string)
     })))
-    volume_mounts_configuration = optional(list(object({
+    volume_mnt = optional(list(object({
       name = optional(string, null)
       path = optional(string, null)
     })))
@@ -68,7 +68,7 @@ EOD
   default = []
 }
 
-variable "dapr_configuration" {
+variable "daprs" {
   description = <<EOD
 A `dapr` object with following attributes:
 ```
@@ -83,7 +83,7 @@ EOD
   default = []
 }
 
-variable "ingress_configuration" {
+variable "ingresses" {
   description = <<EOD
 An `ingress` object with following attributes:
 ```
@@ -96,7 +96,7 @@ EOD
   default = []
 }
 
-variable "registry_configuration" {
+variable "registries" {
   description = <<EOD
 A `registry` object with following attributes:
 ```
@@ -124,7 +124,7 @@ EOD
   default = []
 }
 
-variable "secret_configuration" {
+variable "secrets" {
   description = <<EOD
 Secret configuration object with following attributes:
 ```

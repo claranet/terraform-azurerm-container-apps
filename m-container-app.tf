@@ -13,12 +13,12 @@ module "aca" {
 
   container_app_environment_id = module.aca_env.id
 
-  container_configuration = var.container_configuration
+  containers = var.containers
 
-  dapr_configuration     = var.dapr_configuration
-  ingress_configuration  = var.ingress_configuration
-  registry_configuration = var.registry_configuration
-  secret_configuration   = var.secret_configuration
+  daprs      = var.daprs
+  ingresses  = var.ingresses
+  registries = var.registries
+  secrets    = var.secrets
 
   identity = var.identity
 
