@@ -9,13 +9,9 @@ resource "azurerm_container_app" "main" {
     dynamic "init_container" {
       for_each = var.init_containers
       content {
-        name              = init_container.value.name
-        args              = init_container.value.args
-        command           = init_container.value.command
-        cpu               = init_container.value.cpu
-        ephemeral_storage = init_container.value.ephemeral_storage
-        image             = init_container.value.image
-        memory            = init_container.value.memory
+        args    = init_container.value.args
+        command = init_container.value.command
+        cpu     = init_container.value.cpu
 
         dynamic "env" {
           for_each = init_container.value.envs
@@ -25,6 +21,11 @@ resource "azurerm_container_app" "main" {
             value       = env.value.value
           }
         }
+
+        ephemeral_storage = init_container.value.ephemeral_storage
+        image             = init_container.value.image
+        memory            = init_container.value.memory
+        name              = init_container.value.name
 
         dynamic "volume_mounts" {
           for_each = init_container.value.volume_mnt
@@ -39,12 +40,9 @@ resource "azurerm_container_app" "main" {
     dynamic "container" {
       for_each = var.containers
       content {
-        name    = container.value.name
         args    = container.value.args
         command = container.value.command
         cpu     = container.value.cpu
-        image   = container.value.image
-        memory  = container.value.memory
 
         dynamic "env" {
           for_each = container.value.envs
@@ -54,6 +52,8 @@ resource "azurerm_container_app" "main" {
             value       = env.value.value
           }
         }
+
+        image = container.value.image
 
         dynamic "liveness_probe" {
           for_each = container.value.liveness_probes
@@ -68,18 +68,18 @@ resource "azurerm_container_app" "main" {
               }
             }
 
-            host                             = liveness_probe.value.host
-            initial_delay                    = liveness_probe.value.initial_delay
-            interval_seconds                 = liveness_probe.value.interval_seconds
-            path                             = liveness_probe.value.path
-            port                             = liveness_probe.value.port
-            termination_grace_period_seconds = liveness_probe.value.termination_grace_period_seconds
-            timeout                          = liveness_probe.value.timeout
-            transport                        = liveness_probe.value.transport
+            host             = liveness_probe.value.host
+            initial_delay    = liveness_probe.value.initial_delay
+            interval_seconds = liveness_probe.value.interval_seconds
+            path             = liveness_probe.value.path
+            port             = liveness_probe.value.port
+            timeout          = liveness_probe.value.timeout
+            transport        = liveness_probe.value.transport
           }
         }
 
-
+        memory = container.value.memory
+        name   = container.value.name
 
         dynamic "readiness_probe" {
           for_each = container.value.readiness_probes
@@ -117,21 +117,22 @@ resource "azurerm_container_app" "main" {
               }
             }
 
-            host                             = startup_probe.value.host
-            interval_seconds                 = startup_probe.value.interval_seconds
-            path                             = startup_probe.value.path
-            port                             = startup_probe.value.port
-            termination_grace_period_seconds = startup_probe.value.termination_grace_period_seconds
-            timeout                          = startup_probe.value.timeout
-            transport                        = startup_probe.value.transport
+            host             = startup_probe.value.host
+            initial_delay    = startup_probe.value.initial_delay
+            interval_seconds = startup_probe.value.interval_seconds
+            path             = startup_probe.value.path
+            port             = startup_probe.value.port
+            timeout          = startup_probe.value.timeout
+            transport        = startup_probe.value.transport
           }
         }
 
         dynamic "volume_mounts" {
           for_each = container.value.volume_mnt
           content {
-            name = volume_mounts.value.name
-            path = volume_mounts.value.path
+            name     = volume_mounts.value.name
+            path     = volume_mounts.value.path
+            sub_path = volume_mounts.value.sub_path
           }
         }
       }
@@ -165,7 +166,7 @@ resource "azurerm_container_app" "main" {
       content {
         name             = custom_scale_rule.value.name
         custom_rule_type = custom_scale_rule.value.custom_rule_type
-        metadata         = custom_scale_rule.value.metada
+        metadata         = custom_scale_rule.value.metadata
 
         dynamic "authentication" {
           for_each = custom_scale_rule.value.authentications
@@ -212,14 +213,15 @@ resource "azurerm_container_app" "main" {
       }
     }
 
-    revision_suffix = var.template_revision_suffix
+    revision_suffix                  = var.revision_suffix
+    termination_grace_period_seconds = var.termination_grace_period_seconds
 
     dynamic "volume" {
       for_each = var.volumes
       content {
-        name         = volume.value.template_volume_name
-        storage_name = volume.value.template_volume_storage_name
-        storage_type = volume.value.template_storage_type
+        name         = volume.value.name
+        storage_name = volume.value.storage_name
+        storage_type = volume.value.storage_type
       }
     }
   }
@@ -236,8 +238,8 @@ resource "azurerm_container_app" "main" {
   dynamic "identity" {
     for_each = var.identity[*]
     content {
-      type         = identity.value.type
-      identity_ids = identity.value.identity_ids
+      type         = var.identity.type
+      identity_ids = var.identity.identity_ids
     }
   }
 
@@ -247,19 +249,20 @@ resource "azurerm_container_app" "main" {
     content {
 
       allow_insecure_connections = ingress.value.allow_insecure_connections
+      external_enabled           = ingress.value.external_enabled
 
-      dynamic "custom_domain" {
-        for_each = ingress.value.custom_domain
+      dynamic "ip_security_restriction" {
+        for_each = ingress.value.ip_security_restrictions
         content {
-          name                     = custom_domain.value.name
-          certificate_id           = custom_domain.value.certificate_id
-          certificate_binding_type = custom_domain.value.certificate_binding_type
+          action           = ip_security_restriction.value.action
+          description      = ip_security_restriction.value.description
+          ip_address_range = ip_security_restriction.value.ip_address_range
+          name             = ip_security_restriction.value.name
         }
       }
 
-      fqdn             = ingress.value.fqdn
-      external_enabled = ingress.value.external_enabled
-      target_port      = ingress.value.target_port
+      target_port  = ingress.value.target_port
+      exposed_port = ingress.value.exposed_port
 
       dynamic "traffic_weight" {
         for_each = ingress.value.traffic_weights
@@ -280,18 +283,23 @@ resource "azurerm_container_app" "main" {
     content {
       server               = registry.value.server
       identity             = registry.value.identity
-      username             = registry.value.username
       password_secret_name = registry.value.password_secret_name
+      username             = registry.value.username
     }
   }
 
   dynamic "secret" {
     for_each = var.secrets
     content {
-      name  = secret.value.name
-      value = secret.value.value
+      name                = secret.value.name
+      identity            = secret.value.identity
+      key_vault_secret_id = secret.value.key_vault_secret_id
+      value               = secret.value.value
     }
   }
+
+  workload_profile_name  = var.workload_profile_name
+  max_inactive_revisions = var.max_inactive_revisions
 
   tags = merge(local.default_tags, var.extra_tags)
 }

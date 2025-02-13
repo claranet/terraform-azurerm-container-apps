@@ -28,15 +28,3 @@ variable "stack" {
   description = "Project stack name."
   type        = string
 }
-
-variable "identity" {
-  description = "Map with identity block information."
-  type = object({
-    type         = string
-    identity_ids = list(string)
-  })
-  default = {
-    type         = "SystemAssigned"
-    identity_ids = []
-  }
-}

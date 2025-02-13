@@ -10,9 +10,13 @@ module "aca" {
   environment = var.environment
   stack       = var.stack
 
-  logs_destinations_ids = [
-    module.run.logs_storage_account_id,
-    module.run.log_analytics_workspace_id
+  containers = [
+    {
+      name   = "helloworld"
+      image  = "mcr.microsoft.com/azuredocs/containerapps-helloworld:latest"
+      cpu    = 0.25
+      memory = "0.5Gi"
+    },
   ]
 
   extra_tags = {

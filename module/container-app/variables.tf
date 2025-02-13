@@ -22,15 +22,3 @@ variable "location_short" {
   description = "Short string for Azure location."
   type        = string
 }
-
-variable "identity" {
-  description = "Map with identity block information."
-  type = object({
-    type         = string
-    identity_ids = list(string)
-  })
-  default = {
-    type         = "SystemAssigned"
-    identity_ids = []
-  }
-}
