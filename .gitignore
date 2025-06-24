@@ -5,3 +5,4 @@ terraform.tfvars
 **/.terraform.lock.hcl
 !examples/**/main.tf
 !examples/**/terraform.tfvars
+.roo
