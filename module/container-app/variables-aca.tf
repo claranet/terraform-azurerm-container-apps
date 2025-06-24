@@ -10,7 +10,7 @@ variable "container_app_environment_id" {
 }
 
 variable "init_containers" {
-  description = "The name of the Container App. Changing this forces a new resource to be created."
+  description = "Init containers configuration for this Container App."
   type = list(object({
     name    = string
     args    = optional(list(string), null)
@@ -33,12 +33,7 @@ variable "init_containers" {
 }
 
 variable "containers" {
-  description = <<EOD
-Container configuration object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Configuration of one or more containers for this Container App."
   type = list(object({
     name    = string
     image   = string
@@ -103,24 +98,19 @@ EOD
 }
 
 variable "template_max_replicas" {
-  description = "The maximum number of replicas for this container."
+  description = "The maximum number of replicas for this Container App."
   type        = number
   default     = null
 }
 
 variable "template_min_replicas" {
-  description = "The minimum number of replicas for this container."
+  description = "The minimum number of replicas for this Container App."
   type        = number
   default     = null
 }
 
 variable "azure_queue_scale_rules" {
-  description = <<EOD
-One or more `azure_queue_scale_rule` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Azure queue scale rule configuration for this Container App."
   type = list(object({
     name         = string
     queue_name   = string
@@ -134,12 +124,7 @@ EOD
 }
 
 variable "custom_scale_rules" {
-  description = <<EOD
-One or more `custom_scale_rule` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Custom scale rule configuration for this Container App."
   type = list(object({
     name             = string
     custom_rule_type = string
@@ -153,12 +138,7 @@ EOD
 }
 
 variable "http_scale_rules" {
-  description = <<EOD
-One or more `http_scale_rule` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Http scale rule configuration for this Container App."
   type = list(object({
     name                = string
     concurrent_requests = number
@@ -171,12 +151,7 @@ EOD
 }
 
 variable "tcp_scale_rules" {
-  description = <<EOD
-One or more `tcp_scale_rule` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Tcp scale rule configuration for this Container App."
   type = list(object({
     name                = string
     concurrent_requests = number
@@ -201,12 +176,7 @@ variable "termination_grace_period_seconds" {
 }
 
 variable "volumes" {
-  description = <<EOD
-A `tcp_scale_rule` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Volume configuration for this Container App."
   type = list(object({
     name         = string
     storage_name = optional(string)
@@ -216,12 +186,7 @@ EOD
 }
 
 variable "daprs" {
-  description = <<EOD
-A `dapr` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Dapr configuration for this Container App."
   type = list(object({
     app_id       = string
     app_port     = optional(number)
@@ -243,12 +208,7 @@ variable "identity" {
 }
 
 variable "ingresses" {
-  description = <<EOD
-An `ingress` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Ingress configuration for this Container App."
   type = list(object({
     allow_insecure_connections = optional(bool, false)
     external_enabled           = optional(bool, false)
@@ -272,12 +232,7 @@ EOD
 }
 
 variable "registries" {
-  description = <<EOD
-A `registry` object with following attributes:
-```
-- name:                           xxxxxxxxxxxxxx
-```
-EOD
+  description = "Registries configuration for this Container App."
   type = list(object({
     server               = string
     identity             = optional(string)
@@ -288,15 +243,7 @@ EOD
 }
 
 variable "secrets" {
-  description = <<EOD
-Secret configuration object with following attributes:
-```
-Secrets cannot be removed from the service once added, attempting to do so will result in an error.
-Their values may be zeroed, i.e. set to `""`, but the named secret must persist.
-- name: The secret name.
-- value: The value for this secret.
-```
-EOD
+  description = "Secrets configuration for this Container App."
   type = list(object({
     name                = string
     identity            = optional(string)
@@ -309,7 +256,7 @@ EOD
 variable "workload_profile_name" {
   description = "The name of the Workload Profile in the Container App Environment to place this Container App."
   type        = string
-  default     = "Consumption"
+  default     = null
 }
 
 variable "max_inactive_revisions" {

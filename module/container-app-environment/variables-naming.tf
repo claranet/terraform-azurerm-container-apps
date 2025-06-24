@@ -12,7 +12,7 @@ variable "name_suffix" {
 }
 
 # Custom naming override
-variable "custom_name" {
+variable "container_app_environment_custom_name" {
   description = "Name of the App Service Plan, generated if not set."
   type        = string
   default     = ""

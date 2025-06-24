@@ -1,4 +1,4 @@
-module "aca" {
+module "container_app" {
   source  = "claranet/aca/azurerm"
   version = "x.x.x"
 

@@ -91,7 +91,7 @@ variable "custom_domain_dns_suffix" {
 }
 
 variable "dapr_components" {
-  description = "Dapr Components for the Container App Environment."
+  description = "Dapr Components to be added to the Container App Environment."
   type = list(object({
     name           = string
     component_type = string

@@ -11,13 +11,13 @@ variable "name_suffix" {
 }
 
 # Custom naming override
-variable "aca_env_custom_name" {
+variable "container_app_environment_custom_name" {
   description = "Name of the Container App Environment, generated if not set."
   type        = string
   default     = ""
 }
 
-variable "aca_custom_name" {
+variable "container_app_custom_name" {
   description = "Name of the Container App, generated if not set."
   type        = string
   default     = ""

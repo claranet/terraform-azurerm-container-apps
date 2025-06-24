@@ -1,4 +1,4 @@
-module "aca" {
+module "container_app" {
   source = "./module/container-app"
 
   client_name         = var.client_name
@@ -7,11 +7,12 @@ module "aca" {
   resource_group_name = var.resource_group_name
   stack               = var.stack
 
-  name_prefix     = var.name_prefix
-  name_suffix     = var.name_suffix
-  aca_custom_name = var.aca_custom_name
+  name_prefix               = var.name_prefix
+  name_suffix               = var.name_suffix
+  container_app_custom_name = var.container_app_custom_name
 
-  container_app_environment_id = module.aca_env.id
+  container_app_environment_id = module.container_app_environment.id
+  revision_mode                = var.revision_mode
 
   init_containers                  = var.init_containers
   containers                       = var.containers
