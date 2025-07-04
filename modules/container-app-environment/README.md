@@ -29,8 +29,8 @@ More details about variables set by the `terraform-wrapper` available in the [do
 [Hashicorp Terraform](https://github.com/hashicorp/terraform/). Instead, we recommend to use [OpenTofu](https://github.com/opentofu/opentofu/).
 
 ```hcl
-module "containerapp_environment" {
-  source  = "claranet/aca/azurerm///module/container-app-environment"
+module "container_app_environment" {
+  source  = "claranet/container-apps/azurerm//modules/container-app-environment"
   version = "x.x.x"
 
   location            = module.azure_region.location
@@ -51,7 +51,7 @@ module "containerapp_environment" {
 
 | Name | Version |
 |------|---------|
-| azurecaf | ~> 1.2.28 |
+| azurecaf | ~> 1.2.29 |
 | azurerm | ~> 4.18 |
 
 ## Modules
@@ -81,21 +81,21 @@ No modules.
 | custom\_domain\_enabled | Should the Container App Environment be configured with a Custom Domain? Defaults to `false`. | `bool` | `false` | no |
 | custom\_name | Name of the App Service Plan, generated if not set. | `string` | `""` | no |
 | dapr\_application\_insights\_connection\_string | Application Insights connection string used by Dapr to export Service to Service communication telemetry. Changing this forces a new resource to be created. | `string` | `null` | no |
-| dapr\_components | Dapr Components to be added to the Container App Environment. | <pre>list(object({<br/>    name           = string<br/>    component_type = string<br/>    version        = string<br/>    ignore_errors  = optional(bool, false)<br/>    init_timeout   = optional(string, "5s")<br/>    metadata = list(object({<br/>      name        = string<br/>      value       = optional(string)<br/>      secret_name = optional(string)<br/>    }))<br/>    scopes = list(string)<br/>    secrets = list(object({<br/>      name  = string<br/>      value = string<br/>    }))<br/>  }))</pre> | `[]` | no |
+| dapr\_components | Dapr Components for the Container App Environment. | <pre>list(object({<br/>    name           = string<br/>    component_type = string<br/>    version        = string<br/>    ignore_errors  = optional(bool, false)<br/>    init_timeout   = optional(string, "5s")<br/>    metadata = list(object({<br/>      name        = string<br/>      value       = optional(string)<br/>      secret_name = optional(string)<br/>    }))<br/>    scopes = list(string)<br/>    secrets = list(object({<br/>      name  = string<br/>      value = string<br/>    }))<br/>  }))</pre> | `[]` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
 | environment | Project environment. | `string` | n/a | yes |
 | extra\_tags | Extra tags to add. | `map(string)` | `{}` | no |
 | infrastructure\_resource\_group\_name | Name of the platform-managed resource group created for the Managed Environment to host infrastructure resources. Changing this forces a new resource to be created. | `string` | `null` | no |
 | location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| log\_analytics\_workspace\_id | The ID for the Log Analytics Workspace to link this Container Apps Managed Environment to. | `string` | `null` | no |
+| log\_analytics\_workspace\_id | The ID for the Log Analytics Workspace to link this Container Apps Managed Environment to. Changing this forces a new resource to be created. | `string` | `null` | no |
 | mutual\_tls\_enabled | Should mutual transport layer security (mTLS) be enabled? Defaults to `false`. | `bool` | `false` | no |
 | name\_prefix | Optional prefix for the generated name. | `string` | `""` | no |
 | name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
 | resource\_group\_name | Resource group name. | `string` | n/a | yes |
 | stack | Project stack name. | `string` | n/a | yes |
 | storage | Storage parameters for the Container App Environment. | <pre>list(object({<br/>    name         = string<br/>    account_name = string<br/>    access_key   = string<br/>    share_name   = string<br/>    access_mode  = optional(string, "ReadWrite")<br/>  }))</pre> | `[]` | no |
-| workload\_profile | The profile of the workload to scope the container app execution. A `workload_profile` block as defined below.<pre>- name                  : The name of the workload profile<br/>- workload_profile_type : Workload profile type for the workloads to run on. Possible values include `Consumption`, `D4`, `D8`, `D16`, `D32`, `E4`, `E8`, `E16` and `E32`.<br/>- maximum_count         : The maximum number of instances of workload profile that can be deployed in the Container App Environment.<br/>- minimum_count         : The minimum number of instances of workload profile that can be deployed in the Container App Environment.</pre> | <pre>map(object({<br/>    name                  = string<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = number<br/>    minimum_count         = number<br/>  }))</pre> | `{}` | no |
+| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = number<br/>    minimum_count         = number<br/>  }))</pre> | `{}` | no |
 
 ## Outputs
 

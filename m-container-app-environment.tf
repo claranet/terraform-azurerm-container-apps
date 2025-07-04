@@ -1,5 +1,5 @@
 module "container_app_environment" {
-  source = "./module/container-app-environment"
+  source = "./modules/container-app-environment"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -8,7 +8,7 @@ module "container_app_environment" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  container_app_environment_custom_name = var.container_app_environment_custom_name
+  custom_name = var.container_app_environment_custom_name
 
   dapr_application_insights_connection_string = var.dapr_application_insights_connection_string
   infrastructure_resource_group_name          = var.infrastructure_resource_group_name

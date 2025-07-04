@@ -1,5 +1,5 @@
 module "container_app_environment" {
-  source  = "claranet/aca/azurerm///module/container-app-environment"
+  source  = "claranet/container-apps/azurerm//modules/container-app-environment"
   version = "x.x.x"
 
   location            = module.azure_region.location

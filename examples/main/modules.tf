@@ -1,5 +1,5 @@
 module "container_app" {
-  source  = "claranet/aca/azurerm"
+  source  = "claranet/container-apps/azurerm"
   version = "x.x.x"
 
   location            = module.azure_region.location

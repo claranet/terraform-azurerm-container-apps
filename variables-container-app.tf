@@ -5,7 +5,7 @@ variable "revision_mode" {
 }
 
 variable "init_containers" {
-  description = "Configuration of an init containers."
+  description = "Configuration of one or more init containers."
   type = list(object({
     name    = string
     args    = optional(list(string), null)
@@ -105,7 +105,7 @@ variable "template_min_replicas" {
 }
 
 variable "azure_queue_scale_rules" {
-  description = "Parameters used to define one or more`azure_queue_scale_rule` object"
+  description = "Parameters used to define one or more`azure_queue_scale_rule` object."
   type = list(object({
     name         = string
     queue_name   = string
@@ -119,7 +119,7 @@ variable "azure_queue_scale_rules" {
 }
 
 variable "custom_scale_rules" {
-  description = "Parameters used to define one or more `custom_scale_rule` object"
+  description = "Parameters used to define one or more `custom_scale_rule` object."
   type = list(object({
     name             = string
     custom_rule_type = string
@@ -133,7 +133,7 @@ variable "custom_scale_rules" {
 }
 
 variable "http_scale_rules" {
-  description = "Parameters used to define one or more `http_scale_rule` object"
+  description = "Parameters used to define one or more `http_scale_rule` object."
   type = list(object({
     name                = string
     concurrent_requests = number
@@ -146,7 +146,7 @@ variable "http_scale_rules" {
 }
 
 variable "tcp_scale_rules" {
-  description = "Parameters used to define one or more `tcp_scale_rule` object"
+  description = "Parameters used to define one or more `tcp_scale_rule` object."
   type = list(object({
     name                = string
     concurrent_requests = number
@@ -171,7 +171,7 @@ variable "termination_grace_period_seconds" {
 }
 
 variable "volumes" {
-  description = "Parameters used to define one or more `volume` object"
+  description = "Parameters used to define one or more `volume` object."
   type = list(object({
     name         = string
     storage_name = optional(string)
@@ -181,7 +181,7 @@ variable "volumes" {
 }
 
 variable "daprs" {
-  description = "Parameters used to define one or more `dapr` object"
+  description = "Parameters used to define one or more `dapr` object."
   type = list(object({
     app_id       = string
     app_port     = optional(number)
@@ -203,7 +203,7 @@ variable "identity" {
 }
 
 variable "ingresses" {
-  description = "Parameters used to define one or more `ingress` object"
+  description = "Parameters used to define one or more `ingress` object."
   type = list(object({
     allow_insecure_connections = optional(bool, false)
     external_enabled           = optional(bool, false)
@@ -227,7 +227,7 @@ variable "ingresses" {
 }
 
 variable "registries" {
-  description = "Parameters used to define one or more `registry` object"
+  description = "Parameters used to define one or more `registry` object."
   type = list(object({
     server               = string
     identity             = optional(string)
@@ -238,7 +238,7 @@ variable "registries" {
 }
 
 variable "secrets" {
-  description = "Parameters used to define one or more `secret` object"
+  description = "Parameters used to define one or more `secret` object."
   type = list(object({
     name                = string
     identity            = optional(string)

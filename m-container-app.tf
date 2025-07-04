@@ -1,5 +1,5 @@
 module "container_app" {
-  source = "./module/container-app"
+  source = "./modules/container-app"
 
   client_name         = var.client_name
   environment         = var.environment
@@ -7,9 +7,9 @@ module "container_app" {
   resource_group_name = var.resource_group_name
   stack               = var.stack
 
-  name_prefix               = var.name_prefix
-  name_suffix               = var.name_suffix
-  container_app_custom_name = var.container_app_custom_name
+  name_prefix = var.name_prefix
+  name_suffix = var.name_suffix
+  custom_name = var.container_app_custom_name
 
   container_app_environment_id = module.container_app_environment.id
   revision_mode                = var.revision_mode

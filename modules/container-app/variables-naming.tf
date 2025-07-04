@@ -12,7 +12,7 @@ variable "name_suffix" {
 }
 
 # Custom naming override
-variable "container_app_custom_name" {
+variable "custom_name" {
   description = "Custom name for container app."
   type        = string
   default     = ""
