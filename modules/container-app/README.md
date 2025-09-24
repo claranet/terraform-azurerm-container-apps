@@ -30,12 +30,13 @@ More details about variables set by the `terraform-wrapper` available in the [do
 
 ```hcl
 module "container_app" {
-  source  = "claranet/container-apps/azurerm"
+  source  = "claranet/container-apps/azurerm//modules/container-app"
   version = "x.x.x"
 
-  location            = module.azure_region.location
   location_short      = module.azure_region.location_short
   resource_group_name = module.rg.name
+
+  container_app_environment_id = var.container_app_environment_id
 
   client_name = var.client_name
   environment = var.environment

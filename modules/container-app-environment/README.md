@@ -95,7 +95,7 @@ No modules.
 | resource\_group\_name | Resource group name. | `string` | n/a | yes |
 | stack | Project stack name. | `string` | n/a | yes |
 | storage | Storage parameters for the Container App Environment. | <pre>list(object({<br/>    name         = string<br/>    account_name = string<br/>    access_key   = string<br/>    share_name   = string<br/>    access_mode  = optional(string, "ReadWrite")<br/>  }))</pre> | `[]` | no |
-| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = number<br/>    minimum_count         = number<br/>  }))</pre> | `{}` | no |
+| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = optional(number)<br/>    minimum_count         = optional(number)<br/>  }))</pre> | <pre>{<br/>  "Consumption": {<br/>    "name": "Consumption",<br/>    "workload_profile_type": "Consumption"<br/>  }<br/>}</pre> | no |
 
 ## Outputs
 

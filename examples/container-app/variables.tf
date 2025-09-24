@@ -17,3 +17,8 @@ variable "stack" {
   description = "Project stack name."
   type        = string
 }
+
+variable "container_app_environment_id" {
+  description = "The ID of the Container App Environment in which to create the Container App."
+  type        = string
+}
