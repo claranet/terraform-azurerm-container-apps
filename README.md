@@ -121,7 +121,7 @@ No resources.
 | template\_min\_replicas | The minimum number of replicas for this container. | `number` | `null` | no |
 | termination\_grace\_period\_seconds | The time in seconds after the container is sent the termination signal before the process if forcibly killed. | `number` | `null` | no |
 | volumes | Parameters used to define one or more `volume` object. | <pre>list(object({<br/>    name         = string<br/>    storage_name = optional(string)<br/>    storage_type = optional(string, "EmptyDir")<br/>  }))</pre> | `[]` | no |
-| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = number<br/>    minimum_count         = number<br/>  }))</pre> | `{}` | no |
+| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = optional(number)<br/>    minimum_count         = optional(number)<br/>  }))</pre> | <pre>{<br/>  "Consumption": {<br/>    "name": "Consumption",<br/>    "workload_profile_type": "Consumption"<br/>  }<br/>}</pre> | no |
 | workload\_profile\_name | The name of the Workload Profile in the Container App Environment to place this Container App. | `string` | `null` | no |
 
 ## Outputs

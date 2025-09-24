@@ -40,14 +40,23 @@ variable "workload_profile" {
   type = map(object({
     name                  = optional(string, null)
     workload_profile_type = optional(string, "Consumption")
-    maximum_count         = number
-    minimum_count         = number
+    maximum_count         = optional(number)
+    minimum_count         = optional(number)
   }))
   validation {
     condition     = alltrue([for m in var.workload_profile : contains(["Consumption", "D4", "D8", "D16", "D32", "E4", "E8", "E16", "E32"], m.workload_profile_type)])
     error_message = "The `workload_profile_type` attribute of `var.workload_profile` object list must be `Consumption`, `D4`, `D8`, `D16`, `D32`, `E4`, `E8`, `E16` or `E32`."
   }
-  default = {}
+  validation {
+    condition     = alltrue([for m in var.workload_profile : m.workload_profile_type == "Consumption" ? (m.maximum_count == null && m.minimum_count == null) : (m.maximum_count != null && m.minimum_count != null)])
+    error_message = "The `maximum_count` and `minimum_count` attributes of `var.workload_profile` object list must be set when `workload_profile_type` is not `Consumption`, and must not be set when it is `Consumption`."
+  }
+  default = {
+    Consumption = {
+      name                  = "Consumption"
+      workload_profile_type = "Consumption"
+    }
+  }
 }
 
 variable "mutual_tls_enabled" {
