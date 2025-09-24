@@ -19,6 +19,11 @@ module "container_app" {
     },
   ]
 
+  logs_destinations_ids = [
+    module.logs.storage_account_id,
+    module.logs.id
+  ]
+
   extra_tags = {
     foo = "bar"
   }

@@ -10,6 +10,11 @@ module "container_app_environment" {
   environment = var.environment
   stack       = var.stack
 
+  logs_destinations_ids = [
+    module.logs.storage_account_id,
+    module.logs.id
+  ]
+
   extra_tags = {
     foo = "bar"
   }

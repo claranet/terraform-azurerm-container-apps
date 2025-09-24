@@ -29,12 +29,6 @@ variable "infrastructure_resource_group_name" {
 #   default     = false
 # }
 
-variable "log_analytics_workspace_id" {
-  description = "The ID for the Log Analytics Workspace to link this Container Apps Managed Environment to. Changing this forces a new resource to be created."
-  type        = string
-  default     = null
-}
-
 variable "workload_profile" {
   description = "The profile of the workload to scope the container app execution."
   type = map(object({

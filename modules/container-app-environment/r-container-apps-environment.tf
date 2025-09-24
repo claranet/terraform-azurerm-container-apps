@@ -11,7 +11,7 @@ resource "azurerm_container_app_environment" "main" {
   # internal_load_balancer_enabled              = var.internal_load_balancer_enabled
   # zone_redundancy_enabled                     = var.zone_redundancy_enabled
 
-  log_analytics_workspace_id = var.log_analytics_workspace_id
+  logs_destination = length(var.logs_destinations_ids) > 0 ? "azure-monitor" : null
 
   dynamic "workload_profile" {
     for_each = var.workload_profile
