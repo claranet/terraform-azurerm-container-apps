@@ -61,7 +61,6 @@ module "container_app" {
 
 | Name | Version |
 |------|---------|
-| azapi | ~> 2.0 |
 | azurecaf | ~> 1.2.29 |
 | azurerm | ~> 4.18 |
 
@@ -73,7 +72,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [azapi_update_resource.container_app_secrets](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azurerm_container_app.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app) | resource |
 | [azurecaf_name.aca](https://registry.terraform.io/providers/claranet/azurecaf/latest/docs/data-sources/name) | data source |
 
