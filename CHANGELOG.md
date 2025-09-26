@@ -1,3 +1,9 @@
+## 8.1.1 (2025-09-26)
+
+### Revert
+
+* "feat: use azapi provider for managing container app secrets to avoid cycles" 5fcb7d8
+
 ## 8.1.0 (2025-09-26)
 
 ### Features
