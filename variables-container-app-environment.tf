@@ -29,25 +29,28 @@ variable "infrastructure_resource_group_name" {
 #   default     = false
 # }
 
-variable "log_analytics_workspace_id" {
-  description = "The ID for the Log Analytics Workspace to link this Container Apps Managed Environment to. Changing this forces a new resource to be created."
-  type        = string
-  default     = null
-}
-
 variable "workload_profile" {
   description = "The profile of the workload to scope the container app execution."
   type = map(object({
     name                  = optional(string, null)
     workload_profile_type = optional(string, "Consumption")
-    maximum_count         = number
-    minimum_count         = number
+    maximum_count         = optional(number)
+    minimum_count         = optional(number)
   }))
   validation {
     condition     = alltrue([for m in var.workload_profile : contains(["Consumption", "D4", "D8", "D16", "D32", "E4", "E8", "E16", "E32"], m.workload_profile_type)])
     error_message = "The `workload_profile_type` attribute of `var.workload_profile` object list must be `Consumption`, `D4`, `D8`, `D16`, `D32`, `E4`, `E8`, `E16` or `E32`."
   }
-  default = {}
+  validation {
+    condition     = alltrue([for m in var.workload_profile : m.workload_profile_type == "Consumption" ? (m.maximum_count == null && m.minimum_count == null) : (m.maximum_count != null && m.minimum_count != null)])
+    error_message = "The `maximum_count` and `minimum_count` attributes of `var.workload_profile` object list must be set when `workload_profile_type` is not `Consumption`, and must not be set when it is `Consumption`."
+  }
+  default = {
+    Consumption = {
+      name                  = "Consumption"
+      workload_profile_type = "Consumption"
+    }
+  }
 }
 
 variable "mutual_tls_enabled" {

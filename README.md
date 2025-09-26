@@ -55,6 +55,11 @@ module "container_app" {
     },
   ]
 
+  logs_destinations_ids = [
+    module.logs.storage_account_id,
+    module.logs.id
+  ]
+
   extra_tags = {
     foo = "bar"
   }
@@ -95,6 +100,7 @@ No resources.
 | dapr\_components | Dapr Components to be added to the Container App Environment. | <pre>list(object({<br/>    name           = string<br/>    component_type = string<br/>    version        = string<br/>    ignore_errors  = optional(bool, false)<br/>    init_timeout   = optional(string, "5s")<br/>    metadata = list(object({<br/>      name        = string<br/>      value       = optional(string)<br/>      secret_name = optional(string)<br/>    }))<br/>    scopes = list(string)<br/>    secrets = list(object({<br/>      name  = string<br/>      value = string<br/>    }))<br/>  }))</pre> | `[]` | no |
 | daprs | Parameters used to define one or more `dapr` object. | <pre>list(object({<br/>    app_id       = string<br/>    app_port     = optional(number)<br/>    app_protocol = optional(string, "http")<br/>  }))</pre> | `[]` | no |
 | default\_tags\_enabled | Option to enable or disable default tags. | `bool` | `true` | no |
+| diagnostic\_settings\_custom\_name | Custom name of the diagnostics settings, name will be 'default' if not set. | `string` | `"default"` | no |
 | environment | Project environment. | `string` | n/a | yes |
 | extra\_tags | Additional tags to add on resources. | `map(string)` | `{}` | no |
 | http\_scale\_rules | Parameters used to define one or more `http_scale_rule` object. | <pre>list(object({<br/>    name                = string<br/>    concurrent_requests = number<br/>    authentications = optional(list(object({<br/>      secret_name       = string<br/>      trigger_parameter = string<br/>    })), [])<br/>  }))</pre> | `[]` | no |
@@ -104,7 +110,9 @@ No resources.
 | init\_containers | Configuration of one or more init containers. | <pre>list(object({<br/>    name    = string<br/>    args    = optional(list(string), null)<br/>    command = optional(list(string), null)<br/>    cpu     = optional(number, null)<br/>    image   = string<br/>    memory  = optional(string, null)<br/>    envs = optional(list(object({<br/>      name        = string<br/>      secret_name = optional(string, null)<br/>      value       = optional(string, null)<br/>    })), [])<br/>    ephemeral_storage = optional(string, null)<br/>    volume_mnt = optional(list(object({<br/>      name = string<br/>      path = string<br/>    })), [])<br/>  }))</pre> | `[]` | no |
 | location | Azure region to use. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
-| log\_analytics\_workspace\_id | The ID for the Log Analytics Workspace to link this Container Apps Managed Environment to. Changing this forces a new resource to be created. | `string` | `null` | no |
+| logs\_categories | Log categories to send to destinations. | `list(string)` | `null` | no |
+| logs\_destinations\_ids | List of destination resources IDs for logs diagnostic destination.<br/>Can be `Storage Account`, `Log Analytics Workspace` and `Event Hub`. No more than one of each can be set.<br/>If you want to use Azure EventHub as a destination, you must provide a formatted string containing both the EventHub Namespace authorization send ID and the EventHub name (name of the queue to use in the Namespace) separated by the <code>&#124;</code> character. | `list(string)` | n/a | yes |
+| logs\_metrics\_categories | Metrics categories to send to destinations. | `list(string)` | `null` | no |
 | max\_inactive\_revisions | The maximum of inactive revisions allowed for this Container App. | `number` | `null` | no |
 | mutual\_tls\_enabled | Should mutual transport layer security (mTLS) be enabled? Defaults to `false`. | `bool` | `false` | no |
 | name\_prefix | Optional prefix for the generated name. | `string` | `""` | no |
@@ -121,7 +129,7 @@ No resources.
 | template\_min\_replicas | The minimum number of replicas for this container. | `number` | `null` | no |
 | termination\_grace\_period\_seconds | The time in seconds after the container is sent the termination signal before the process if forcibly killed. | `number` | `null` | no |
 | volumes | Parameters used to define one or more `volume` object. | <pre>list(object({<br/>    name         = string<br/>    storage_name = optional(string)<br/>    storage_type = optional(string, "EmptyDir")<br/>  }))</pre> | `[]` | no |
-| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = number<br/>    minimum_count         = number<br/>  }))</pre> | `{}` | no |
+| workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = optional(number)<br/>    minimum_count         = optional(number)<br/>  }))</pre> | <pre>{<br/>  "Consumption": {<br/>    "name": "Consumption",<br/>    "workload_profile_type": "Consumption"<br/>  }<br/>}</pre> | no |
 | workload\_profile\_name | The name of the Workload Profile in the Container App Environment to place this Container App. | `string` | `null` | no |
 
 ## Outputs

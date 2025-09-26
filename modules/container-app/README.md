@@ -30,12 +30,13 @@ More details about variables set by the `terraform-wrapper` available in the [do
 
 ```hcl
 module "container_app" {
-  source  = "claranet/container-apps/azurerm"
+  source  = "claranet/container-apps/azurerm//modules/container-app"
   version = "x.x.x"
 
-  location            = module.azure_region.location
   location_short      = module.azure_region.location_short
   resource_group_name = module.rg.name
+
+  container_app_environment_id = var.container_app_environment_id
 
   client_name = var.client_name
   environment = var.environment
@@ -60,6 +61,7 @@ module "container_app" {
 
 | Name | Version |
 |------|---------|
+| azapi | ~> 2.0 |
 | azurecaf | ~> 1.2.29 |
 | azurerm | ~> 4.18 |
 
@@ -71,6 +73,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azapi_update_resource.container_app_secrets](https://registry.terraform.io/providers/Azure/azapi/latest/docs/resources/update_resource) | resource |
 | [azurerm_container_app.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app) | resource |
 | [azurecaf_name.aca](https://registry.terraform.io/providers/claranet/azurecaf/latest/docs/data-sources/name) | data source |
 

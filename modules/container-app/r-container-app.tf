@@ -288,18 +288,38 @@ resource "azurerm_container_app" "main" {
     }
   }
 
-  dynamic "secret" {
-    for_each = var.secrets
-    content {
-      name                = secret.value.name
-      identity            = secret.value.identity
-      key_vault_secret_id = secret.value.key_vault_secret_id
-      value               = secret.value.value
-    }
-  }
-
   workload_profile_name  = var.workload_profile_name
   max_inactive_revisions = var.max_inactive_revisions
 
   tags = merge(local.default_tags, var.extra_tags)
+
+  lifecycle {
+    ignore_changes = [
+      secret
+    ]
+  }
+}
+
+
+# Manage secrets using azapi provider to avoid cycles when using Key Vault references
+resource "azapi_update_resource" "container_app_secrets" {
+  count = length(var.secrets) > 0 ? 1 : 0
+
+  type        = "Microsoft.App/containerApps@2024-03-01"
+  resource_id = azurerm_container_app.main.id
+
+  body = {
+    properties = {
+      configuration = {
+        secrets = [
+          for secret in var.secrets : {
+            name        = secret.name
+            identity    = secret.identity
+            keyVaultUrl = secret.key_vault_secret_id
+            value       = sensitive(secret.value)
+          }
+        ]
+      }
+    }
+  }
 }

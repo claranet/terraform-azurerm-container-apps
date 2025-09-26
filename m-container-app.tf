@@ -29,7 +29,7 @@ module "container_app" {
   ingresses                        = var.ingresses
   registries                       = var.registries
   secrets                          = var.secrets
-  workload_profile_name            = var.workload_profile_name
+  workload_profile_name            = var.workload_profile_name == null ? try(keys(var.workload_profile)[0], null) : var.workload_profile_name
   max_inactive_revisions           = var.max_inactive_revisions
 
   identity = var.identity

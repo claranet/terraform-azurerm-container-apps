@@ -16,7 +16,10 @@ module "container_app_environment" {
   # internal_load_balancer_enabled              = var.internal_load_balancer_enabled
   # zone_redundancy_enabled                     = var.zone_redundancy_enabled
 
-  log_analytics_workspace_id = var.log_analytics_workspace_id
+  logs_destinations_ids           = var.logs_destinations_ids
+  logs_categories                 = var.logs_categories
+  logs_metrics_categories         = var.logs_metrics_categories
+  diagnostic_settings_custom_name = var.diagnostic_settings_custom_name
 
   workload_profile   = var.workload_profile
   mutual_tls_enabled = var.mutual_tls_enabled
