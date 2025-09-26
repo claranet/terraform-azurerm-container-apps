@@ -1,3 +1,27 @@
+## 8.1.0 (2025-09-26)
+
+### Features
+
+* implement diagnostic settings and logging configuration for container apps 9d2bd11
+* use azapi provider for managing container app secrets to avoid cycles a89b880
+
+### Bug Fixes
+
+* update container app example 39cc68a
+* update workload profile handling b6dbceb
+
+### Miscellaneous Chores
+
+* **deps:** 🔗 bump AzureRM provider version to v4.31+ 38be212
+* **deps:** update dependency opentofu to v1.10.3 f2ef699
+* **deps:** update dependency opentofu to v1.10.6 9c7f03c
+* **deps:** update dependency tflint to v0.58.1 37a384d
+* **deps:** update dependency tflint to v0.59.1 82801a4
+* **deps:** update dependency trivy to v0.66.0 3f57d8e
+* **deps:** update pre-commit hook pre-commit/pre-commit-hooks to v6 836287d
+* **deps:** update tools a959c3e
+* **deps:** update tools cb21755
+
 ## 8.0.0 (2025-07-11)
 
 ### ⚠ BREAKING CHANGES
