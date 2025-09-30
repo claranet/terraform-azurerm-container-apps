@@ -61,7 +61,7 @@ module "container_app" {
 
 | Name | Version |
 |------|---------|
-| azurecaf | ~> 1.2.29 |
+| azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.18 |
 
 ## Modules
