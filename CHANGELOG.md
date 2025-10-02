@@ -1,3 +1,9 @@
+## 8.1.3 (2025-10-02)
+
+### Bug Fixes
+
+* add name_prefix and name_suffix variables to container app environment 2673ff4
+
 ## 8.1.2 (2025-09-30)
 
 ### Code Refactoring
