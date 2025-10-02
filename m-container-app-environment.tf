@@ -8,6 +8,8 @@ module "container_app_environment" {
   location            = var.location
   resource_group_name = var.resource_group_name
 
+  name_prefix = var.name_prefix
+  name_suffix = var.name_suffix
   custom_name = var.container_app_environment_custom_name
 
   dapr_application_insights_connection_string = var.dapr_application_insights_connection_string
