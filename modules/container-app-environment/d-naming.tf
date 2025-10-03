@@ -7,3 +7,14 @@ data "azurecaf_name" "container_app_environment" {
   clean_input   = true
   separator     = "-"
 }
+
+data "azurecaf_name" "infrastructure_rg" {
+  count = var.infrastructure_subnet != null ? 1 : 0
+
+  name          = local.name
+  resource_type = "azurerm_resource_group"
+  suffixes      = ["cae"]
+  use_slug      = true
+  clean_input   = true
+  separator     = "-"
+}

@@ -14,9 +14,9 @@ module "container_app_environment" {
 
   dapr_application_insights_connection_string = var.dapr_application_insights_connection_string
   infrastructure_resource_group_name          = var.infrastructure_resource_group_name
-  # infrastructure_subnet_id                    = var.infrastructure_subnet_id
-  # internal_load_balancer_enabled              = var.internal_load_balancer_enabled
-  # zone_redundancy_enabled                     = var.zone_redundancy_enabled
+  infrastructure_subnet                       = var.infrastructure_subnet
+  internal_load_balancer_enabled              = var.internal_load_balancer_enabled
+  zone_redundancy_enabled                     = var.zone_redundancy_enabled
 
   logs_destinations_ids           = var.logs_destinations_ids
   logs_categories                 = var.logs_categories
