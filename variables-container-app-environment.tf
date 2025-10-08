@@ -11,23 +11,25 @@ variable "infrastructure_resource_group_name" {
   default     = null
 }
 
-# variable "infrastructure_subnet_id" {
-#   description = "The existing Subnet to use for the Container Apps Control Plane. Changing this forces a new resource to be created. The Subnet must have a `/21` or larger address space."
-#   type        = string
-#   default     = null
-# }
+variable "infrastructure_subnet" {
+  description = "The existing Subnet to use for the Container Apps Control Plane. Changing this forces a new resource to be created. The Subnet must have a `/27` or larger address space."
+  type = object({
+    id = string
+  })
+  default = null
+}
 
-# variable "internal_load_balancer_enabled" {
-#   description = "Should the Container Environment operate in Internal Load Balancing Mode? Defaults to `false`. Changing this forces a new resource to be created."
-#   type        = bool
-#   default     = false
-# }
+variable "internal_load_balancer_enabled" {
+  description = "Should the Container Environment operate in Internal Load Balancing Mode? Defaults to `false`. Changing this forces a new resource to be created."
+  type        = bool
+  default     = false
+}
 
-# variable "zone_redundancy_enabled" {
-#   description = "Should the Container App Environment be created with Zone Redundancy enabled? Defaults to `false`. Changing this forces a new resource to be created."
-#   type        = bool
-#   default     = false
-# }
+variable "zone_redundancy_enabled" {
+  description = "Should the Container App Environment be created with Zone Redundancy enabled? Defaults to `false`. Changing this forces a new resource to be created."
+  type        = bool
+  default     = true
+}
 
 variable "workload_profile" {
   description = "The profile of the workload to scope the container app execution."

@@ -5,11 +5,10 @@ resource "azurerm_container_app_environment" "main" {
 
   dapr_application_insights_connection_string = var.dapr_application_insights_connection_string
 
-  infrastructure_resource_group_name = var.infrastructure_resource_group_name
-  # Issue with the variable internal_load_balancer_enabled if defaulted to false as detailed in the documentation (https://github.com/hashicorp/terraform-provider-azurerm/issues/25303)
-  # infrastructure_subnet_id                    = var.infrastructure_subnet_id
-  # internal_load_balancer_enabled              = var.internal_load_balancer_enabled
-  # zone_redundancy_enabled                     = var.zone_redundancy_enabled
+  infrastructure_resource_group_name = var.infrastructure_subnet != null ? coalesce(var.infrastructure_resource_group_name, data.azurecaf_name.infrastructure_rg[0].result) : null
+  infrastructure_subnet_id           = var.infrastructure_subnet.id
+  internal_load_balancer_enabled     = var.infrastructure_subnet != null ? var.internal_load_balancer_enabled : null
+  zone_redundancy_enabled            = var.infrastructure_subnet != null ? var.zone_redundancy_enabled : null
 
   logs_destination = length(var.logs_destinations_ids) > 0 ? "azure-monitor" : null
 
