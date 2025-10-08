@@ -1,3 +1,9 @@
+## 8.2.0 (2025-10-08)
+
+### Features
+
+* vnet integration e4cd822
+
 ## 8.1.3 (2025-10-02)
 
 ### Bug Fixes
