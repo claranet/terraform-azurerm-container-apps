@@ -1,3 +1,14 @@
+## 8.2.1 (2025-10-13)
+
+### Bug Fixes
+
+* **GH-1:** 🐛 add `sub_path` in `volume_mounts` 65e4702
+
+### Miscellaneous Chores
+
+* **deps:** update dependency trivy to v0.67.1 248fea5
+* **deps:** update dependency trivy to v0.67.2 e9198b1
+
 ## 8.2.0 (2025-10-08)
 
 ### Features
