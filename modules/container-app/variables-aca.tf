@@ -25,8 +25,9 @@ variable "init_containers" {
     })), [])
     ephemeral_storage = optional(string, null)
     volume_mnt = optional(list(object({
-      name = string
-      path = string
+      name     = string
+      path     = string
+      sub_path = optional(string, null)
     })), [])
   }))
   default = []
@@ -90,8 +91,9 @@ variable "containers" {
       transport        = optional(string, null)
     })), [])
     volume_mnt = optional(list(object({
-      name = string
-      path = string
+      name     = string
+      path     = string
+      sub_path = optional(string, null)
     })), [])
   }))
   default = []
