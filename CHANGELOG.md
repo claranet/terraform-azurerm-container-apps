@@ -1,3 +1,14 @@
+## 8.3.0 (2025-10-24)
+
+### Features
+
+* **ingresses:** 🌟 add support for `client_certificate_mode`, `cors`, and `custom_domain` 39a6a70
+* **nfs/storage:** update storage parameters for Container App Environment ff58897
+
+### Miscellaneous Chores
+
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.2.2 d15c3ae
+
 ## 8.2.1 (2025-10-13)
 
 ### Bug Fixes
