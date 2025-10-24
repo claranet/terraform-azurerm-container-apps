@@ -107,7 +107,7 @@ module "container_app_environment" {
 | name\_suffix | Optional suffix for the generated name. | `string` | `""` | no |
 | resource\_group\_name | Resource group name. | `string` | n/a | yes |
 | stack | Project stack name. | `string` | n/a | yes |
-| storage | Storage parameters for the Container App Environment. | <pre>list(object({<br/>    name         = string<br/>    account_name = string<br/>    access_key   = string<br/>    share_name   = string<br/>    access_mode  = optional(string, "ReadWrite")<br/>  }))</pre> | `[]` | no |
+| storage | Storage parameters for the Container App Environment. | <pre>list(object({<br/>    name           = string<br/>    account_name   = optional(string)<br/>    access_key     = optional(string)<br/>    share_name     = string<br/>    access_mode    = optional(string, "ReadWrite")<br/>    nfs_server_url = optional(string)<br/>  }))</pre> | `[]` | no |
 | workload\_profile | The profile of the workload to scope the container app execution. | <pre>map(object({<br/>    name                  = optional(string, null)<br/>    workload_profile_type = optional(string, "Consumption")<br/>    maximum_count         = optional(number)<br/>    minimum_count         = optional(number)<br/>  }))</pre> | <pre>{<br/>  "Consumption": {<br/>    "name": "Consumption",<br/>    "workload_profile_type": "Consumption"<br/>  }<br/>}</pre> | no |
 | zone\_redundancy\_enabled | Should the Container App Environment be created with Zone Redundancy enabled? Defaults to `false`. Changing this forces a new resource to be created. | `bool` | `true` | no |
 

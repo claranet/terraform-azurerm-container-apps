@@ -120,15 +120,24 @@ variable "dapr_components" {
 variable "storage" {
   description = "Storage parameters for the Container App Environment."
   type = list(object({
-    name         = string
-    account_name = string
-    access_key   = string
-    share_name   = string
-    access_mode  = optional(string, "ReadWrite")
+    name           = string
+    account_name   = optional(string)
+    access_key     = optional(string)
+    share_name     = string
+    access_mode    = optional(string, "ReadWrite")
+    nfs_server_url = optional(string)
   }))
   validation {
     condition     = alltrue([for m in var.storage : contains(["ReadWrite", "ReadOnly"], m.access_mode)])
     error_message = "The `access_mode` attribute of `var.storage` object list must be `ReadWrite` or `ReadOnly`."
+  }
+  validation {
+    condition = alltrue([
+      for m in var.storage :
+      (m.nfs_server_url != null && m.account_name == null && m.access_key == null) ||
+      (m.nfs_server_url == null && m.account_name != null && m.access_key != null)
+    ])
+    error_message = "Either `nfs_server_url` must be set (for NFS storage) OR both `account_name` and `access_key` must be set (for Azure Files storage), but not both."
   }
   default = []
 }
