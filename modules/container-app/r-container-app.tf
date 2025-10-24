@@ -250,7 +250,31 @@ resource "azurerm_container_app" "main" {
     content {
 
       allow_insecure_connections = ingress.value.allow_insecure_connections
-      external_enabled           = ingress.value.external_enabled
+      client_certificate_mode    = ingress.value.client_certificate_mode
+
+      dynamic "cors" {
+        for_each = ingress.value.cors[*]
+        content {
+          allowed_origins           = cors.value.allowed_origins
+          allowed_methods           = cors.value.allowed_methods
+          allowed_headers           = cors.value.allowed_headers
+          exposed_headers           = cors.value.exposed_headers
+          max_age_in_seconds        = cors.value.max_age_in_seconds
+          allow_credentials_enabled = cors.value.allow_credentials_enabled
+        }
+      }
+
+      dynamic "custom_domain" {
+        for_each = ingress.value.custom_domains
+        content {
+          certificate_binding_type = custom_domain.value.certificate_binding_type
+          certificate_id           = custom_domain.value.certificate_id
+          name                     = custom_domain.value.name
+        }
+      }
+
+      exposed_port     = ingress.value.exposed_port
+      external_enabled = ingress.value.external_enabled
 
       dynamic "ip_security_restriction" {
         for_each = ingress.value.ip_security_restrictions
@@ -262,8 +286,7 @@ resource "azurerm_container_app" "main" {
         }
       }
 
-      target_port  = ingress.value.target_port
-      exposed_port = ingress.value.exposed_port
+      target_port = ingress.value.target_port
 
       dynamic "traffic_weight" {
         for_each = ingress.value.traffic_weights

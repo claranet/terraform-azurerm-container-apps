@@ -213,15 +213,29 @@ variable "ingresses" {
   description = "Ingress configuration for this Container App."
   type = list(object({
     allow_insecure_connections = optional(bool, false)
-    external_enabled           = optional(bool, false)
+    client_certificate_mode    = optional(string)
+    cors = optional(object({
+      allowed_origins           = list(string)
+      allowed_methods           = optional(list(string))
+      allowed_headers           = optional(list(string))
+      exposed_headers           = optional(list(string))
+      max_age_in_seconds        = optional(number)
+      allow_credentials_enabled = optional(bool, false)
+    }))
+    custom_domains = optional(list(object({
+      certificate_binding_type = optional(string)
+      certificate_id           = string
+      name                     = string
+    })), [])
+    exposed_port     = optional(number)
+    external_enabled = optional(bool, false)
     ip_security_restrictions = optional(list(object({
       action           = string
       description      = optional(string)
       ip_address_range = string
       name             = string
     })), [])
-    target_port  = number
-    exposed_port = optional(number)
+    target_port = number
     traffic_weights = list(object({
       label           = optional(string)
       latest_revision = optional(string)
