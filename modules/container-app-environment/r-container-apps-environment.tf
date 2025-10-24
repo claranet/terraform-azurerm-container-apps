@@ -84,9 +84,10 @@ resource "azurerm_container_app_environment_storage" "main" {
 
   container_app_environment_id = azurerm_container_app_environment.main.id
 
-  name         = each.key
-  account_name = each.value.account_name
-  share_name   = each.value.share_name
-  access_key   = each.value.access_key
-  access_mode  = each.value.access_mode
+  name           = each.key
+  account_name   = each.value.account_name
+  share_name     = each.value.share_name
+  access_key     = each.value.access_key
+  access_mode    = each.value.access_mode
+  nfs_server_url = each.value.nfs_server_url
 }
