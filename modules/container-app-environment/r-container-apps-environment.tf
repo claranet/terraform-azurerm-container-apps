@@ -36,7 +36,7 @@ resource "azurerm_container_app_environment_certificate" "main" {
   certificate_blob_base64 = each.value.certificate_blob_base64
   certificate_password    = each.value.certificate_password
 
-  tags = merge(var.extra_tags, local.default_tags)
+  tags = merge(local.default_tags, var.extra_tags)
 }
 
 resource "azurerm_container_app_environment_custom_domain" "main" {
