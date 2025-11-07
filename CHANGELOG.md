@@ -1,3 +1,14 @@
+## 8.4.0 (2025-11-07)
+
+### Features
+
+* **AZ-1619:** add tagging to environment certificates a6d1e67
+
+### Miscellaneous Chores
+
+* apply suggestions 41eca6f
+* **deps:** update dependency opentofu to v1.10.7 17593fb
+
 ## 8.3.0 (2025-10-24)
 
 ### Features
