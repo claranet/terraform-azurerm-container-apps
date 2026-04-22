@@ -97,7 +97,7 @@ resource "azurerm_container_app" "main" {
 
             host                    = readiness_probe.value.host
             interval_seconds        = readiness_probe.value.interval_seconds
-            path                    = readiness_probe.value.transport == "TCP" ? null : readiness_probe.value.port
+            path                    = readiness_probe.value.transport == "TCP" ? null : readiness_probe.value.path
             port                    = readiness_probe.value.port
             success_count_threshold = readiness_probe.value.success_count_threshold
             timeout                 = readiness_probe.value.timeout
