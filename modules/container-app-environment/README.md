@@ -55,20 +55,20 @@ module "container_app_environment" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.18 |
 
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | diagnostics | claranet/diagnostic-settings/azurerm | ~> 8.2.0 |
 
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_container_app_environment.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment) | resource |
 | [azurerm_container_app_environment_certificate.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_certificate) | resource |
 | [azurerm_container_app_environment_custom_domain.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app_environment_custom_domain) | resource |
@@ -80,7 +80,7 @@ module "container_app_environment" {
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | certificate | Container App Environment Certificate parameters. | <pre>list(object({<br/>    name                    = string<br/>    certificate_blob_base64 = string<br/>    certificate_password    = string<br/>  }))</pre> | `[]` | no |
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
 | custom\_domain\_certificate\_blob\_base64 | The bundle of Private Key and Certificate for the Custom DNS Suffix as a base64 encoded PFX or PEM. | `string` | `""` | no |
@@ -114,7 +114,7 @@ module "container_app_environment" {
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | custom\_domain\_verification\_id | he ID of the Custom Domain Verification for this Container App Environment. |
 | default\_domain | The default, publicly resolvable, name of this Container App Environment. |
 | docker\_bridge\_cidr | The network addressing in which the Container Apps in this Container App Environment will reside in CIDR notation. |

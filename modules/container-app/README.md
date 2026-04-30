@@ -60,7 +60,7 @@ module "container_app" {
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | azurecaf | >= 1.2.28 |
 | azurerm | ~> 4.49 |
 
@@ -71,14 +71,14 @@ No modules.
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [azurerm_container_app.main](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_app) | resource |
 | [azurecaf_name.aca](https://registry.terraform.io/providers/claranet/azurecaf/latest/docs/data-sources/name) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | azure\_queue\_scale\_rules | Azure queue scale rule configuration for this Container App. | <pre>list(object({<br/>    name         = string<br/>    queue_name   = string<br/>    queue_length = string<br/>    authentications = list(object({<br/>      secret_name       = string<br/>      trigger_parameter = string<br/>    }))<br/>  }))</pre> | `[]` | no |
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
 | container\_app\_environment\_id | The ID of the Container App Environment within which this Container App should exist. Changing this forces a new resource to be created. | `string` | n/a | yes |
@@ -113,7 +113,7 @@ No modules.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | custom\_domain\_verification\_id | ID of the Custom Domain Verification for this Container App. |
 | id | Azure Container Apps ID. |
 | identity\_principal\_id | Azure Container Apps system identity principal ID. |

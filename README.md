@@ -73,7 +73,7 @@ No providers.
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | container\_app | ./modules/container-app | n/a |
 | container\_app\_environment | ./modules/container-app-environment | n/a |
 
@@ -84,7 +84,7 @@ No resources.
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | azure\_queue\_scale\_rules | Parameters used to define one or more`azure_queue_scale_rule` object. | <pre>list(object({<br/>    name         = string<br/>    queue_name   = string<br/>    queue_length = string<br/>    authentications = list(object({<br/>      secret_name       = string<br/>      trigger_parameter = string<br/>    }))<br/>  }))</pre> | `[]` | no |
 | certificate | Container App Environment Certificate parameters. | <pre>list(object({<br/>    name                    = string<br/>    certificate_blob_base64 = string<br/>    certificate_password    = string<br/>  }))</pre> | `[]` | no |
 | client\_name | Client name/account used in naming. | `string` | n/a | yes |
@@ -138,7 +138,7 @@ No resources.
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | module\_container\_app | Container App output object. Please refer to `./modules/container-app/README.md`. |
 | module\_container\_app\_environment | Container App Environment output object. Please refer to `./modules/container-app-environment/README.md`. |
 <!-- END_TF_DOCS -->
