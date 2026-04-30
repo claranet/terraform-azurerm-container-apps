@@ -1,3 +1,20 @@
+## 8.5.0 (2026-04-30)
+
+### Features
+
+* **AZ-1655:** add probes path conditions if transport is TCP 42bdea5
+
+### Bug Fixes
+
+* **AZ-1655:** fix typo 47dbe4d
+
+### Miscellaneous Chores
+
+* **deps:** 🔗 update mise conf for OpenTofu 21c1648
+* **deps:** update pre-commit hook tofuutils/pre-commit-opentofu to v2.3.0 f0b3563
+* **deps:** update tools 0049c9e
+* **pre-commit:** 🔧 move to prek 965c926
+
 ## 8.4.2 (2026-03-27)
 
 ### Bug Fixes
