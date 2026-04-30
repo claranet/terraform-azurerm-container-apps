@@ -72,7 +72,7 @@ resource "azurerm_container_app" "main" {
             host             = liveness_probe.value.host
             initial_delay    = liveness_probe.value.initial_delay
             interval_seconds = liveness_probe.value.interval_seconds
-            path             = liveness_probe.value.path
+            path             = liveness_probe.value.transport == "TCP" ? null : liveness_probe.value.path
             port             = liveness_probe.value.port
             timeout          = liveness_probe.value.timeout
             transport        = liveness_probe.value.transport
@@ -97,7 +97,7 @@ resource "azurerm_container_app" "main" {
 
             host                    = readiness_probe.value.host
             interval_seconds        = readiness_probe.value.interval_seconds
-            path                    = readiness_probe.value.path
+            path                    = readiness_probe.value.transport == "TCP" ? null : readiness_probe.value.path
             port                    = readiness_probe.value.port
             success_count_threshold = readiness_probe.value.success_count_threshold
             timeout                 = readiness_probe.value.timeout
@@ -121,7 +121,7 @@ resource "azurerm_container_app" "main" {
             host             = startup_probe.value.host
             initial_delay    = startup_probe.value.initial_delay
             interval_seconds = startup_probe.value.interval_seconds
-            path             = startup_probe.value.path
+            path             = startup_probe.value.transport == "TCP" ? null : startup_probe.value.path
             port             = startup_probe.value.port
             timeout          = startup_probe.value.timeout
             transport        = startup_probe.value.transport
