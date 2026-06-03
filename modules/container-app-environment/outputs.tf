@@ -1,6 +1,7 @@
 output "resource" {
   description = "Container App Environment resource object."
   value       = azurerm_container_app_environment.main
+  sensitive   = true
 }
 
 output "id" {
