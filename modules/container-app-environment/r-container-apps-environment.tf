@@ -10,7 +10,7 @@ resource "azurerm_container_app_environment" "main" {
   internal_load_balancer_enabled     = var.infrastructure_subnet != null ? var.internal_load_balancer_enabled : null
   zone_redundancy_enabled            = var.infrastructure_subnet != null ? var.zone_redundancy_enabled : null
 
-  logs_destination = length(var.logs_destinations_ids) > 0 ? "azure-monitor" : null
+  logs_destination = length(var.logs_destinations_ids) > 0 ? "log-analytics" : null
 
   dynamic "workload_profile" {
     for_each = var.workload_profile
