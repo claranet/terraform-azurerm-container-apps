@@ -22,6 +22,7 @@ output "identity_principal_id" {
 output "custom_domain_verification_id" {
   description = "ID of the Custom Domain Verification for this Container App."
   value       = azurerm_container_app.main.custom_domain_verification_id
+  sensitive   = true
 }
 
 output "latest_revision_fqdn" {
