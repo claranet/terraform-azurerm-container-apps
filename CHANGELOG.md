@@ -1,3 +1,29 @@
+## 9.0.0 (2026-08-24)
+
+### ⚠ BREAKING CHANGES
+
+* **SREAA-368:** AzureRM provider bumped to ~> 5.0. The azurerm_container_app_environment resource logs_destination value changed from "azure-
+  monitor" to "log-analytics". Minimum OpenTofu version raised to 1.12.
+
+### Features
+
+* **SREAA-368:** upgrade module to v9 (OpenTofu >= 1.12, AzureRM ~> 5.0) 03d092f
+
+### Documentation
+
+* **SREAA-368:** 📚️ regenerate the submodule READMEs 9405683
+
+### Continuous Integration
+
+* **SREAA-368:** 👷 point the pipeline include back at the ci master branch 6446868
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.12.5 9256339
+* **deps:** update dependency tflint to v0.64.0 dd979e4
+* **SREAA-368:** 🔗 bump azurecaf to ~> 1.3.0 and resync the ci template files 68bb3ce
+* **v9:** 🐛 synchronize common files and docs d9f7cab
+
 ## 8.5.2 (2026-07-20)
 
 ### Bug Fixes
