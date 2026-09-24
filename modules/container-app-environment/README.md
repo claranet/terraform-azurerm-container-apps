@@ -42,10 +42,17 @@ module "container_app_environment" {
   environment = var.environment
   stack       = var.stack
 
+  # Diagnostic settings of the environment
   logs_destinations_ids = [
     module.logs.storage_account_id,
-    module.logs.id
+    module.logs.id,
   ]
+
+  # Container console/system logs sent directly to a Log Analytics Workspace.
+  # Omit to keep the `azure-monitor` mode (logs routed by the diagnostic settings).
+  log_analytics_workspace = {
+    id = module.logs.id
+  }
 
   extra_tags = {
     foo = "bar"
@@ -100,6 +107,7 @@ module "container_app_environment" {
 | internal\_load\_balancer\_enabled | Should the Container Environment operate in Internal Load Balancing Mode? Defaults to `false`. Changing this forces a new resource to be created. | `bool` | `false` | no |
 | location | Azure location. | `string` | n/a | yes |
 | location\_short | Short string for Azure location. | `string` | n/a | yes |
+| log\_analytics\_workspace | Log Analytics Workspace receiving the Container Apps Environment console and system logs (`logs_destination = "log-analytics"`).<br/>When `null`, `logs_destination` is `azure-monitor` if `logs_destinations_ids` is not empty (logs routed by the diagnostic settings), otherwise logs are only streamed.<br/>Setting this workspace and also listing it in `logs_destinations_ids` sends the console logs twice (`ContainerAppConsoleLogs` table and diagnostic setting category). | <pre>object({<br/>    id = string<br/>  })</pre> | `null` | no |
 | logs\_categories | Log categories to send to destinations. | `list(string)` | `null` | no |
 | logs\_destinations\_ids | List of destination resources IDs for logs diagnostic destination.<br/>Can be `Storage Account`, `Log Analytics Workspace` and `Event Hub`. No more than one of each can be set.<br/>If you want to use Azure EventHub as a destination, you must provide a formatted string containing both the EventHub Namespace authorization send ID and the EventHub name (name of the queue to use in the Namespace) separated by the <code>&#124;</code> character. | `list(string)` | n/a | yes |
 | logs\_metrics\_categories | Metrics categories to send to destinations. | `list(string)` | `null` | no |
@@ -116,10 +124,11 @@ module "container_app_environment" {
 
 | Name | Description |
 | ---- | ----------- |
-| custom\_domain\_verification\_id | he ID of the Custom Domain Verification for this Container App Environment. |
+| custom\_domain\_verification\_id | The ID of the Custom Domain Verification for this Container App Environment. |
 | default\_domain | The default, publicly resolvable, name of this Container App Environment. |
 | docker\_bridge\_cidr | The network addressing in which the Container Apps in this Container App Environment will reside in CIDR notation. |
 | id | The ID of the Container App Environment. |
+| logs\_destination | Logs destination of the Container App Environment (`log-analytics`, `azure-monitor` or `null`). |
 | platform\_reserved\_cidr | The IP range, in CIDR notation, that is reserved for environment infrastructure IP addresses. |
 | platform\_reserved\_dns\_ip\_address | The IP address from the IP range defined by `platform_reserved_cidr` that is reserved for the internal DNS server. |
 | resource | Container App Environment resource object. |

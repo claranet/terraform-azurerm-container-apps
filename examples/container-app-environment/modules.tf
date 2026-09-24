@@ -10,10 +10,17 @@ module "container_app_environment" {
   environment = var.environment
   stack       = var.stack
 
+  # Diagnostic settings of the environment
   logs_destinations_ids = [
     module.logs.storage_account_id,
-    module.logs.id
+    module.logs.id,
   ]
+
+  # Container console/system logs sent directly to a Log Analytics Workspace.
+  # Omit to keep the `azure-monitor` mode (logs routed by the diagnostic settings).
+  log_analytics_workspace = {
+    id = module.logs.id
+  }
 
   extra_tags = {
     foo = "bar"
