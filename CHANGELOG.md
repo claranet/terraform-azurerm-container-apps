@@ -1,3 +1,13 @@
+## 9.0.1 (2026-09-25)
+
+### Bug Fixes
+
+* **AZ-1708:** 🐛 add log_analytics_workspace and restore azure-monitor logs destination 84999df
+
+### Miscellaneous Chores
+
+* **deps:** ⬆️ update tools 🔗 0ac0bc9
+
 ## 9.0.0 (2026-08-24)
 
 ### ⚠ BREAKING CHANGES
