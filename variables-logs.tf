@@ -27,3 +27,15 @@ variable "diagnostic_settings_custom_name" {
   type        = string
   default     = "default"
 }
+
+variable "log_analytics_workspace" {
+  description = <<EOD
+Log Analytics Workspace receiving the Container Apps Environment console and system logs (`logs_destination = "log-analytics"`).
+When `null`, `logs_destination` is `azure-monitor` if `logs_destinations_ids` is not empty (logs routed by the diagnostic settings), otherwise logs are only streamed.
+Setting this workspace and also listing it in `logs_destinations_ids` sends the console logs twice (`ContainerAppConsoleLogs` table and diagnostic setting category).
+EOD
+  type = object({
+    id = string
+  })
+  default = null
+}

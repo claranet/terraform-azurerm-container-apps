@@ -22,6 +22,7 @@ module "container_app_environment" {
   logs_categories                 = var.logs_categories
   logs_metrics_categories         = var.logs_metrics_categories
   diagnostic_settings_custom_name = var.diagnostic_settings_custom_name
+  log_analytics_workspace         = var.log_analytics_workspace
 
   workload_profile   = var.workload_profile
   mutual_tls_enabled = var.mutual_tls_enabled

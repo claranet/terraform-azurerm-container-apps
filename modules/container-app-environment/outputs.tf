@@ -10,7 +10,7 @@ output "id" {
 }
 
 output "custom_domain_verification_id" {
-  description = "he ID of the Custom Domain Verification for this Container App Environment."
+  description = "The ID of the Custom Domain Verification for this Container App Environment."
   value       = azurerm_container_app_environment.main.custom_domain_verification_id
 }
 
@@ -37,4 +37,9 @@ output "platform_reserved_dns_ip_address" {
 output "static_ip_address" {
   description = "The Static IP address of the Environment."
   value       = azurerm_container_app_environment.main.static_ip_address
+}
+
+output "logs_destination" {
+  description = "Logs destination of the Container App Environment (`log-analytics`, `azure-monitor` or `null`)."
+  value       = azurerm_container_app_environment.main.logs_destination
 }
