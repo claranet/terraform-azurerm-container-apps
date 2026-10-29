@@ -6,7 +6,7 @@ resource "azurerm_container_app_environment" "main" {
   dapr_application_insights_connection_string = var.dapr_application_insights_connection_string
 
   infrastructure_resource_group_name = var.infrastructure_subnet != null ? coalesce(var.infrastructure_resource_group_name, data.azurecaf_name.infrastructure_rg[0].result) : null
-  infrastructure_subnet_id           = var.infrastructure_subnet.id
+  infrastructure_subnet_id           = var.infrastructure_subnet != null ? var.infrastructure_subnet.id : null
   internal_load_balancer_enabled     = var.infrastructure_subnet != null ? var.internal_load_balancer_enabled : null
   zone_redundancy_enabled            = var.infrastructure_subnet != null ? var.zone_redundancy_enabled : null
 
