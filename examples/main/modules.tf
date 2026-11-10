@@ -19,6 +19,24 @@ module "container_app" {
     },
   ]
 
+  # Optional jobs in the same environment, by key (exactly one trigger each)
+  container_app_jobs = {
+    nightly = {
+      schedule_trigger_config = {
+        cron_expression = "0 22 * * *"
+      }
+      replica_timeout_in_seconds = 600
+      containers = [
+        {
+          name   = "job"
+          image  = "mcr.microsoft.com/k8se/quickstart-jobs:latest"
+          cpu    = 0.25
+          memory = "0.5Gi"
+        },
+      ]
+    }
+  }
+
   # Diagnostic settings of the environment
   logs_destinations_ids = [
     module.logs.storage_account_id,

@@ -7,6 +7,9 @@ output "resource" {
 output "id" {
   description = "The ID of the Container App Environment."
   value       = azurerm_container_app_environment.main.id
+
+  # Container Apps and Jobs reference this ID and can mount the environment storages: create the storages first.
+  depends_on = [azurerm_container_app_environment_storage.main]
 }
 
 output "custom_domain_verification_id" {

@@ -5,8 +5,8 @@ resource "azurerm_container_app_environment" "main" {
 
   dapr_application_insights_connection_string = var.dapr_application_insights_connection_string
 
-  infrastructure_resource_group_name = var.infrastructure_subnet != null ? coalesce(var.infrastructure_resource_group_name, data.azurecaf_name.infrastructure_rg[0].result) : null
-  infrastructure_subnet_id           = var.infrastructure_subnet.id
+  infrastructure_resource_group_name = var.infrastructure_subnet != null ? coalesce(var.infrastructure_resource_group_name, data.azurecaf_name.infrastructure_rg[0].result) : var.infrastructure_resource_group_name
+  infrastructure_subnet_id           = var.infrastructure_subnet != null ? var.infrastructure_subnet.id : null
   internal_load_balancer_enabled     = var.infrastructure_subnet != null ? var.internal_load_balancer_enabled : null
   zone_redundancy_enabled            = var.infrastructure_subnet != null ? var.zone_redundancy_enabled : null
 
@@ -25,7 +25,7 @@ resource "azurerm_container_app_environment" "main" {
 
   mutual_tls_enabled = var.mutual_tls_enabled
 
-  tags = merge(var.extra_tags, local.default_tags)
+  tags = merge(local.default_tags, var.extra_tags)
 }
 
 resource "azurerm_container_app_environment_certificate" "main" {
@@ -66,7 +66,7 @@ resource "azurerm_container_app_environment_dapr_component" "main" {
     for_each = each.value.metadata
     content {
       name        = metadata.value.name
-      secret_name = metadata.value.name
+      secret_name = metadata.value.secret_name
       value       = metadata.value.value
     }
   }
@@ -74,7 +74,7 @@ resource "azurerm_container_app_environment_dapr_component" "main" {
   scopes = each.value.scopes
 
   dynamic "secret" {
-    for_each = each.value.secret
+    for_each = each.value.secrets
     content {
       name  = secret.value.name
       value = secret.value.value
