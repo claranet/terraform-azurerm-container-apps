@@ -165,7 +165,7 @@ variable "volumes" {
 }
 
 variable "identity" {
-  description = "Map with identity block information."
+  description = "Map with identity block information. Set to `null` to create the Container App Job without identity."
   type = object({
     type         = string
     identity_ids = list(string)

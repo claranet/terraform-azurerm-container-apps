@@ -1,7 +1,8 @@
 variable "container_app_jobs" {
   description = <<EOD
 Container App Jobs to create in the Container App Environment, by key. The key is added to the name suffix of the job:
-set `custom_name` when generated names would exceed 32 characters. Exactly one trigger per job.
+the plan fails when the generated name would exceed 32 characters, set `custom_name` in that case. Exactly one trigger per job.
+`identity` defaults to a SystemAssigned identity, set `identity_enabled = false` to create the job without identity.
 Attributes are described in [`./modules/container-app-job/README.md`](./modules/container-app-job/README.md).
 EOD
   type = map(object({
@@ -122,6 +123,7 @@ EOD
       storage_type  = optional(string, "EmptyDir")
       mount_options = optional(string)
     })), [])
+    identity_enabled = optional(bool, true)
     identity = optional(object({
       type         = string
       identity_ids = list(string)
@@ -144,4 +146,9 @@ EOD
   }))
   default  = {}
   nullable = false
+
+  validation {
+    condition     = alltrue([for k in keys(var.container_app_jobs) : can(regex("^[a-z0-9]([a-z0-9-]*[a-z0-9])?$", k))])
+    error_message = "`container_app_jobs` keys must contain only lowercase alphanumerics and hyphens, and must not start or end with a hyphen."
+  }
 }

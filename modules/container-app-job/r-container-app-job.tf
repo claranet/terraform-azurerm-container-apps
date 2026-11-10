@@ -243,5 +243,12 @@ resource "azurerm_container_app_job" "main" {
       ]) == 1
       error_message = "Exactly one of `manual_trigger_config`, `schedule_trigger_config` and `event_trigger_config` must be set."
     }
+
+    # azurecaf trims the name suffix first, then the other parts, when the name exceeds 32 characters:
+    # jobs that differ only by their suffix would get the same name.
+    precondition {
+      condition     = (var.custom_name != null && var.custom_name != "") || data.azurecaf_name.acj.result == local.untrimmed_name
+      error_message = "The generated Container App Job name `${local.untrimmed_name}` exceeds 32 characters and would be trimmed to `${coalesce(data.azurecaf_name.acj.result, "null")}`: set `custom_name`."
+    }
   }
 }
