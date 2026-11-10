@@ -1,3 +1,27 @@
+## 9.1.0 (2026-11-10)
+
+### Features
+
+* **SREAA-382:** add container-app-job submodule 43f6174
+* **SREAA-382:** manage container app jobs from the root module ba532ca
+
+### Bug Fixes
+
+* **SREAA-382:** address the review of container app jobs 3042237
+* **SREAA-382:** allow a container app environment without infrastructure subnet aebedd2
+* **SREAA-382:** fix container-app-environment dapr component secrets and tag precedence f4eed87
+
+### Continuous Integration
+
+* **release:** drop semantic-release-slack-bot, the receiver posts releases b3da4c5
+
+### Miscellaneous Chores
+
+* **deps:** update dependency opentofu to v1.13.0 1dec04a
+* **deps:** update dependency opentofu to v1.13.1 3d3fd97
+* **deps:** update dependency opentofu to v1.13.2 ea8c751
+* **deps:** update dependency tflint to v0.65.0 d5c861c
+
 ## 9.0.1 (2026-09-25)
 
 ### Bug Fixes
